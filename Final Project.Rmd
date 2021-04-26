@@ -9,3 +9,97 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
 ```
 
+# install.packages("tidyverse")
+# install.packages("censusapi")
+
+library(tidyverse) 
+library(censusapi)
+
+```{r API, include=F}
+# Only run the below the first time you are setting up the API key
+#
+# Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
+#
+# readRenviron("~/.Renviron")
+# Sys.getenv("CENSUS_KEY")
+
+```
+
+```{r Looking at Data, include=T}
+apis <- listCensusApis()
+
+view(apis)
+
+project_vars <- listCensusMetadata(
+  name = "acs/acs5", 
+  vintage = 2019,
+  type = "variables",
+)
+
+project_geo <- listCensusMetadata(name = "dec/sf1", vintage = 2010, type = "geography")
+
+head(project_geo)
+```
+```{r  Selecting Data, include=T}
+
+# NEED TO DEFINE DEMO VARS 
+
+demo <- getCensus(
+  name = "acs/acs5", 
+  vintage = 2010, 
+  vars = c("NAME", "B03002_001E", "B03002_002E", "B03002_003E", "B03002_004E", "B03002_005E", "B03002_006E", "B03002_007E", "B03002_008E", "B03002_009E", "B03002_010E", "B03002_011E", "B03002_012E", "B03002_013E", "B03002_014E", "B03002_015E", "B03002_016E", "B03002_017E", "B03002_018E", "B03002_019E", "B03002_020E", "B03002_021E"), 
+  region ="tract:*", 
+  regionin =  "state:17+county:031")
+
+demo_tb <- as_tibble(demo)
+
+demo_tb <- demo_tb %>% 
+  mutate(nonhisp_multi = B03002_009E + B03002_010E + B03002_011E, .keep = "unused") %>% 
+  mutate(hisp_multi = B03002_019E + B03002_020E + B03002_021E, .keep = "unused")
+  rename(race_eth_total = B03002_001E,
+         nonhisp_all = B03002_002E,
+         nonhisp_white = B03002_003E, 
+         nonhisp_black = B03002_004E,
+         nonhisp_native = B03002_005E, 
+         nonhisp_asian = B02011_006E, 
+         nonhisp_pi = B02012_007E, 
+         nonhisp_other = B02013_008E,
+         hisp_all = B03002_012E, 
+         hisp_white = B03002_013E, 
+         hisp_black = B03002_014E, 
+         hisp_native = B03002_015E, 
+         hisp_asian = B03002_016E, 
+         hisp_pi = B03002_017E, 
+         hisp_other = B03002_018E)
+
+demo_tb$tract <- as.numeric(demo_tb$tract)
+
+demo_tb %>% 
+  filter(tract >= 680100 & tract <= 681499) %>%
+  print()
+
+
+test <- getCensus(
+  name = "acs/acs5", 
+  vintage = 2010, 
+  vars = c("NAME", "B02001_002E", "B02008_001E", "B02001_003E", "B02009_001E"), 
+  region ="tract:*", 
+  regionin =  "state:17+county:031")
+
+test_tb <- as_tibble(test)
+
+test_tb$tract <- as.numeric(test_tb$tract)
+
+test_tb %>% 
+  filter(tract >= 680100 & tract <= 681499) %>%
+  print()
+
+```
+
+
+test <- getCensus(
+  name = "acs/acs5", 
+  vintage = 2010, 
+  vars = c("NAME", "B02001_001E", B02008_001E") 
+  region ="tract:*", 
+  regionin =  "state:17+county:031")
