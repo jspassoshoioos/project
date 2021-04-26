@@ -1,0 +1,140 @@
+---
+title: "Final Project"
+author: "Mia Krout & Jake da Silva Passos-Hoioos"
+date: "4/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+# install.packages("tidyverse")
+# install.packages("censusapi")
+
+library(tidyverse) 
+library(censusapi)
+
+```{r API, include=F}
+# Only run the below the first time you are setting up the API key
+#
+# Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
+#
+# readRenviron("~/.Renviron")
+# Sys.getenv("CENSUS_KEY")
+
+```
+
+```{r Looking at Data, include=T}
+apis <- listCensusApis()
+
+view(apis)
+
+project_vars <- listCensusMetadata(
+  name = "acs/acs5", 
+  vintage = 2019,
+  type = "variables",
+)
+
+project_geo <- listCensusMetadata(name = "dec/sf1", vintage = 2010, type = "geography")
+
+head(project_geo)
+```
+
+```{r  Calling Data, include=T}
+
+# NEED TO DEFINE DEMO VARS 
+
+demo_2010 <- as_tibble(
+  getCensus(name = "acs/acs5", 
+            vintage = 2010, 
+            vars = c("NAME",
+                     "B03002_001E", # Total Race/Ethnicity 
+                     "B03002_002E", # Total Non-Hispanic
+                     "B03002_003E",
+                     "B03002_004E",
+                     "B03002_005E",
+                     "B03002_006E",
+                     "B03002_007E",
+                     "B03002_008E",
+                     "B03002_009E",
+                     "B03002_010E",
+                     "B03002_011E",
+                     "B03002_012E",
+                     "B03002_013E",
+                     "B03002_014E",
+                     "B03002_015E",
+                     "B03002_016E",
+                     "B03002_017E",
+                     "B03002_018E",
+                     "B03002_019E",
+                     "B03002_020E",
+                     "B03002_021E", 
+                     "B06011_001E"), # Median Income 
+            region ="tract:*", 
+            regionin =  "state:17+county:031")) 
+
+```
+
+```{r Cleaning Data}
+demo_2010 <- demo_2010 %>% 
+  mutate(nonhisp_multi = B03002_009E + B03002_010E + B03002_011E, .keep = "unused") %>% 
+  mutate(hisp_multi = B03002_019E + B03002_020E + B03002_021E, .keep = "unused") %>% 
+  rename(race_eth_total = B03002_001E,
+         nonhisp_all = B03002_002E,
+         nonhisp_white = B03002_003E, 
+         nonhisp_black = B03002_004E,
+         nonhisp_native = B03002_005E, 
+         nonhisp_asian = B03002_006E, 
+         nonhisp_pi = B03002_007E, 
+         nonhisp_other = B03002_008E,
+         hisp_all = B03002_012E, 
+         hisp_white = B03002_013E, 
+         hisp_black = B03002_014E, 
+         hisp_native = B03002_015E, 
+         hisp_asian = B03002_016E, 
+         hisp_pi = B03002_017E, 
+         hisp_other = B03002_018E,
+         median_income = B06011_001E) %>% 
+    mutate(tract = as.numeric(tract), .keep = "unused") %>% 
+  mutate(neighborhood = if_else((tract >= 010100) & (tract <= 010999),
+                                "RODGERS PARK",
+                                if_else((tract >= 031000) & (tract <= 032199),
+                                        "UPTOWN", 
+                                        if_else((tract >= 080100) & (tract <= 081999), 
+                                                "NEAR NORTH SIDE",
+                                                if_else((tract >= 210100) & (tract <= 210999),
+                                                        "AVONDALE", 
+                                                        if_else((tract >= 340100) & (tract <= 340699), 
+                                                                "ARMOUR SQUARE", 
+                                                                if_else((tract >= 680100) & (tract <= 681499), 
+                                                                        "ENGLEWOOD", 
+                                                                        ifelse((tract >= 490100) & (tract <= 491499), 
+                                                                                "ROSEWOOD", 
+                                                                                NA)
+                                                                        )
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+  ) %>% 
+  filter(!is.na(neighborhood)) 
+```
+
+```{r Checking Data, include=T}
+
+demo_2010
+
+```
+
+
+```{r Further Checking, include=T}
+demo_2010 %>% 
+  filter(neighborhood == "ENGLEWOOD") %>%
+  print()
+
+
+sum(demo_2010$hisp_native)
+```
+
