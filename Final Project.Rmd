@@ -6,24 +6,40 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, include = T)
 ```
 
+# Introduction 
+
+# Data Prep and Cleaning 
+
+```{r Packages}
 # install.packages("tidyverse")
 # install.packages("censusapi")
 
 library(tidyverse) 
 library(censusapi)
+```
+
+**Please Note**: The Census Bureau requires users to obtain their own personal API 
+key. The code chunk titled "API Key" contains an empty string for you to insert
+your own API key. This chunk has been excluded from the text of this report for 
+brevity. 
 
 ```{r API, include=F}
 # Only run the below the first time you are setting up the API key
 #
-# Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
+# Insert your actual API Key before runing if not Mia or Jake
+Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
 #
-# readRenviron("~/.Renviron")
-# Sys.getenv("CENSUS_KEY")
+readRenviron("~/.Renviron")
+Sys.getenv("CENSUS_KEY")
 
 ```
+
+The package censusapi contains metadata about each of the available APIs and the 
+data accessible from said APIs, and can be quite useful when trying to identify
+the relevant data set. 
 
 ```{r Looking at Data, include=T}
 apis <- listCensusApis()
@@ -46,40 +62,67 @@ head(project_geo)
 # NEED TO DEFINE DEMO VARS 
 
 demo_2010 <- as_tibble(
-  getCensus(name = "acs/acs5", 
-            vintage = 2010, 
-            vars = c("NAME",
-                     "B03002_001E", # Total Race/Ethnicity 
+  getCensus(name = "acs/acs5", # name specifies the census data, in this case the ACS 5 year ests.  
+            vintage = 2013, # For non-time series data vintage = year 
+            vars = c("NAME", # Provides name of jurisdiction (here tracts)
+                     "B03002_001E", ### Total Race/Ethnicity 
                      "B03002_002E", # Total Non-Hispanic
-                     "B03002_003E",
-                     "B03002_004E",
-                     "B03002_005E",
-                     "B03002_006E",
-                     "B03002_007E",
-                     "B03002_008E",
-                     "B03002_009E",
-                     "B03002_010E",
-                     "B03002_011E",
-                     "B03002_012E",
-                     "B03002_013E",
-                     "B03002_014E",
-                     "B03002_015E",
-                     "B03002_016E",
-                     "B03002_017E",
-                     "B03002_018E",
-                     "B03002_019E",
-                     "B03002_020E",
-                     "B03002_021E", 
-                     "B06011_001E"), # Median Income 
-            region ="tract:*", 
-            regionin =  "state:17+county:031")) 
+                     "B03002_003E", # Non-Hispanic White
+                     "B03002_004E", # Non-Hispanic Black
+                     "B03002_005E", # Non-Hispanic Native American
+                     "B03002_006E", # Non-Hispanic Asian
+                     "B03002_007E", # Non-Hispanic Hawaiian or Pacific Islander
+                     "B03002_008E", # Non-Hispanic Other
+                     "B03002_009E", # Non-Hispanic Two or more races (Multiracial)
+                     "B03002_012E", # Total Hispanic
+                     "B03002_013E", # Hispanic White
+                     "B03002_014E", # Hispanic Black
+                     "B03002_015E", # Hispanic Native American
+                     "B03002_016E", # Hispanic Asian
+                     "B03002_017E", # Hispanic Hawaiian or Pacific Islander
+                     "B03002_018E", # Hispanic Other 
+                     "B03002_019E", # Hispanic Two or more races (Multiracial)
+                     "B06011_001E", ### Median Income 
+                     "B16001_001E", ### Total Language Spoken at Home
+                     "B16001_002E", # English only
+                     "B16001_003E", # Spanish Total
+                     "B16001_004E", # Spanish, English Very Well 
+                     "B16001_005E", # Spanish, English Less Than Very Well  
+                     "B16001_030E", # Polish Total
+                     "B16001_031E", # Polish, English Very Well  
+                     "B16001_032E", # Polish, English Less Than Very Well  
+                     "B16001_075E", # Chinese Total 
+                     "B16001_076E", # Chinese, English Very Well 
+                     "B16001_076E", # Chinese, English Less Than Very Well 
+                     "B16001_099E", # Tagalog (incl. Filipino) Total
+                     "B16001_100E", # Tagalog, English Very Well
+                     "B16001_101E", # Tagalog, English Less Than Very Well
+                     "B16001_105E", # Arabic Total
+                     "B16001_105E", # Arabic, English Very Well
+                     "B16001_105E", # Arabic, English Less Than Very Well                     
+            region ="tract:*", # Indicates we want tract level data 
+            regionin =  "state:17+county:031")  # ID State and County using FIPS
+  )
+)
+
 
 ```
 
+
+
+Public census data is available at various jurisdiction levels, from multi-state
+regions down to individual block groups. For our project, our interest was on Chicago
+community areas, which approximate Chicago's various neighborhoods. Each of these areas
+are comprised of many individual census tracts. For our analysis, we used maps published
+by the City of Chicago identifying each community area and the census tracts that
+comprise that community. After identifying each of the community areas for each
+improvement project, we then used the identified census tracts to calculate the
+approximate populations of each community. 
+
 ```{r Cleaning Data}
-demo_2010 <- demo_2010 %>% 
-  mutate(nonhisp_multi = B03002_009E + B03002_010E + B03002_011E, .keep = "unused") %>% 
-  mutate(hisp_multi = B03002_019E + B03002_020E + B03002_021E, .keep = "unused") %>% 
+
+
+neighborhood_2010 <- demo_2010 %>% 
   rename(race_eth_total = B03002_001E,
          nonhisp_all = B03002_002E,
          nonhisp_white = B03002_003E, 
@@ -88,6 +131,7 @@ demo_2010 <- demo_2010 %>%
          nonhisp_asian = B03002_006E, 
          nonhisp_pi = B03002_007E, 
          nonhisp_other = B03002_008E,
+         nonhisp_multi = B03002_009E,
          hisp_all = B03002_012E, 
          hisp_white = B03002_013E, 
          hisp_black = B03002_014E, 
@@ -95,6 +139,7 @@ demo_2010 <- demo_2010 %>%
          hisp_asian = B03002_016E, 
          hisp_pi = B03002_017E, 
          hisp_other = B03002_018E,
+         his_multi = B03002_019E,
          median_income = B06011_001E) %>% 
     mutate(tract = as.numeric(tract), .keep = "unused") %>% 
   mutate(neighborhood = if_else((tract >= 010100) & (tract <= 010999),
@@ -111,7 +156,7 @@ demo_2010 <- demo_2010 %>%
                                                                         "ENGLEWOOD", 
                                                                         ifelse((tract >= 490100) & (tract <= 491499), 
                                                                                 "ROSEWOOD", 
-                                                                                NA)
+                                                                                "ROC") # Rest of City
                                                                         )
                                                                 )
                                                         )
