@@ -2,16 +2,19 @@
 title: "Final Project"
 author: "Mia Krout & Jake da Silva Passos-Hoioos"
 date: "4/25/2021"
-output: html_document
+output: pdf_document
 ---
 
+
+
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, include = T)
+knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
 ```
 
-# Introduction 
+# Introduction
 
-# Data Prep and Cleaning 
+# Data Prep and Cleaning
 
 ```{r Packages}
 # install.packages("tidyverse")
@@ -19,12 +22,15 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, include = T)
 
 library(tidyverse) 
 library(censusapi)
+library(kableExtra)
+#install.packages("threeparttablex", repos = "http://cran.us.r-project.org"
+
 ```
 
-**Please Note**: The Census Bureau requires users to obtain their own personal API 
-key. The code chunk titled "API Key" contains an empty string for you to insert
-your own API key. This chunk has been excluded from the text of this report for 
-brevity. 
+**Please Note**: The Census Bureau requires users to obtain their own
+personal API key. The code chunk titled "API Key" contains an empty
+string for you to insert your own API key. This chunk has been excluded
+from the text of this report for brevity.
 
 ```{r API, include=F}
 # Only run the below the first time you are setting up the API key
@@ -37,11 +43,11 @@ Sys.getenv("CENSUS_KEY")
 
 ```
 
-The package censusapi contains metadata about each of the available APIs and the 
-data accessible from said APIs, and can be quite useful when trying to identify
-the relevant data set. 
+The package censusapi contains metadata about each of the available APIs
+and the data accessible from said APIs, and can be quite useful when
+trying to identify the relevant data set.
 
-```{r Looking at Data, include=T}
+```{r Looking at Data}
 apis <- listCensusApis()
 
 view(apis)
@@ -57,9 +63,7 @@ project_geo <- listCensusMetadata(name = "dec/sf1", vintage = 2010, type = "geog
 head(project_geo)
 ```
 
-```{r  Calling Data, include=T}
-
-# NEED TO DEFINE DEMO VARS 
+```{r  Calling Data}
 
 demo_2010 <- as_tibble(
   getCensus(name = "acs/acs5", # name specifies the census data, in this case the ACS 5 year ests.  
@@ -141,23 +145,23 @@ demo_2010 <- as_tibble(
 
 ```
 
-Public census data is available at various jurisdiction levels, from multi-state
-regions down to individual block groups. For our project, our interest was on Chicago
-community areas, which approximate Chicago's various neighborhoods. Each of these areas
-are comprised of many individual census tracts. For our analysis, we used maps published
-by the City of Chicago identifying each community area and the census tracts that
-comprise that community. After identifying each of the community areas for each
-improvement project, we then used the identified census tracts to calculate the
-approximate populations of each community. 
-
+Public census data is available at various jurisdiction levels, from
+multi-state regions down to individual block groups. For our project,
+our interest was on Chicago community areas, which approximate Chicago's
+various neighborhoods. Each of these areas are comprised of many
+individual census tracts. For our analysis, we used maps published by
+the City of Chicago identifying each community area and the census
+tracts that comprise that community. After identifying each of the
+community areas for each improvement project, we then used the
+identified census tracts to calculate the approximate populations of
+each community.
 
 ```{r Cleaning Data}
-
 
 chicago_2010 <- demo_2010 %>% 
   rename(re_total = B03002_001E,
          nh_total = B03002_002E,
-         nonh_white = B03002_003E, 
+         nh_white = B03002_003E, 
          nh_black = B03002_004E,
          nh_native = B03002_005E, 
          nh_asian = B03002_006E, 
@@ -171,7 +175,7 @@ chicago_2010 <- demo_2010 %>%
          h_asian = B03002_016E, 
          h_pi = B03002_017E, 
          h_other = B03002_018E,
-         his_multi = B03002_019E, 
+         h_multi = B03002_019E, 
          lang_total = B16001_001E, 
          eng = B16001_002E, 
          sp_total = B16001_003E,
@@ -235,62 +239,215 @@ chicago_2010
   
 ```
 
-```{r Reviewing data} 
+```{r Reviewing data}
 
 mm_inc <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
   group_by(neighborhood) %>%
   select(neighborhood, median_income) %>% 
   summarise(mean_median_income = mean(median_income)) %>% 
   select(mean_median_income)
   
+city_inc <- chicago_2010 %>% 
+  select(median_income) %>% 
+  summarise(mean_median_income = mean(median_income))
 
+cta_inc <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
+  select(median_income) %>% 
+  summarise(mean_median_income = mean(median_income))
 
-chicago_2010 %>% 
+#chicago_2010 %>% 
+#  select(everything(), -tract, -median_income) %>% 
+#  group_by(neighborhood) %>% 
+#  summarise(across(everything()), mean)
+
+city_per <- chicago_2010 %>% 
   select(everything(), -tract, -median_income) %>% 
-  group_by(neighborhood) %>% 
-  summarise(across(everything()), mean)
-
-
-sum(chicago_2010$race_eth_total)
-
-chicago_2010 %>% 
-  select(everything(), -tract, -median_income) %>% 
-  group_by(neighborhood) %>% 
   summarise(across(where(is.numeric), sum)) %>% 
-  cbind(mm_inc) %>% 
-  mutate(native_gd_perc = (native_gd_eng / lang_total), 
-         no_hs_perc = (no_hs / edu_total),
-         hs_perc = (hs / edu_total),
-         uni_perc = (uni / edu_total), 
-         nh_white_per = (nh_white / re_total),
-         h_white_per = (h_white / re_total), # Need to make note that only NH White and H White are separated, all others are combined
-         black_per = ((nh_black + h_black) / re_total),
-         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total), # Also note combo of Asian and Pacific Islander (AAPI)
-         othermulti_per = ((nh_other h_other + nh_multi + h_multi) / re_total), # Make note of combo of other race and multi racial
-         
-          
+  transmute(native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, # Need to make note that only NH White and H White are separated, all others are combined
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, # Also note combo of Asian and Pacific Islander (AAPI)
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  # Make note of combo of other race and multi racial
+  ) 
+
+city_wide <- cbind("CITY WIDE", city_per, city_inc) %>% 
+  rename(neighborhood = `"CITY WIDE"`)
+
+cta_per <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
+  select(everything(), -tract, -median_income) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, 
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, 
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  
   )
 
+cta_wide <- cbind("AREAS WITH CTA IMPROVEMENT", cta_per, cta_inc) %>% 
+  rename(neighborhood = `"AREAS WITH CTA IMPROVEMENT"`)
+  
+
+percents <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>%
+  filter(neighborhood != "REST OF CITY") %>%
+  group_by(neighborhood) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(neighborhood = neighborhood,
+         native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, # Need to make note that only NH White and H White are separated, all others are combined
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, # Also note combo of Asian and Pacific Islander (AAPI)
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  # Make note of combo of other race and multi racial
+  ) %>% 
+  cbind(mm_inc) %>%
+  rbind(cta_wide, city_wide)
+
+
+percents$neighborhood <- str_to_title(percents$neighborhood)
+```
+
+```{r Lang check}
+# English and Spanish are going to be highest but let's see how our neighborhoods 
+# do in terms of the other languages from Chicago's top 6. 
+
+lang <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>%
+  filter(neighborhood != "REST OF CITY") %>%
+  group_by(neighborhood) %>% 
+  summarise(across(where(is.numeric), sum)) %>%
+  select(neighborhood, lang_total:sp_total, plsk_total, chn_total, flp_total, arab_total) %>%
+  transmute(neighborhood = neighborhood,
+            eng_only = round((eng / lang_total) * 100, 2), 
+            primary_sp = round((sp_total / lang_total) * 100, 2), 
+            primary_plsk = round((plsk_total / lang_total) * 100, 2), 
+            primary_chn = round((chn_total / lang_total) * 100, 2), 
+            primary_flp = round((flp_total / lang_total) * 100, 2), 
+            primary_arab = round((arab_total / lang_total) * 100, 2)) 
+
+city_lang <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(eng_only = round((eng / lang_total) * 100, 2), 
+            primary_sp = round((sp_total / lang_total) * 100, 2), 
+            primary_plsk = round((plsk_total / lang_total) * 100, 2), 
+            primary_chn = round((chn_total / lang_total) * 100, 2), 
+            primary_flp = round((flp_total / lang_total) * 100, 2), 
+            primary_arab = round((arab_total / lang_total) * 100, 2))
+
+city_lang <- cbind("CITY WIDE", city_lang) %>% 
+  rename(neighborhood = `"CITY WIDE"`)
+
+dim(lang)
+dim(city_lang)
+
+all_lang <- rbind(lang, city_lang)
+
+all_lang
+
+# Only thing interesting is the 6% in Avondale given it's higher than the city-wide average
+# Everything else is what we would expect (high amount of Chinese spoken in Armour Square 
+# since Chinatown is there) and Avondale being primary Spanish, and Englewood and Rosewood being
+# almost entirely English (since it's 98% AA). Also Near North Side is predictably higher 
+# than city average for English. 
+
+```
+
+# Demographics Charts
+
+```{r Table of Race Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood, nh_white_per:othermulti_per) %>%
+  kable(col.names = c("Area",
+                      "Non-Hisp White", "Hisp White", "Black", "AAPI", "Other/Multiracial"), 
+        align = "ccc", 
+        caption = "Racial Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+
+```
+
+```{r Table of Lang Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood,  native_gd_per:primary_sp) %>%
+  kable(col.names = c("Area",
+                      "English Native or Very Well", "English Less than Very Well", "Primary not English", "Primary Language Spanish"), 
+        align = "ccc", 
+        caption = "Language Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+
+```
+
+```{r Table of Edu Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood, no_hs_per:uni_per) %>%
+  kable(col.names = c("Area",
+                      "Less Than a HS", "HS + Some College", "College Degree"), 
+        align = "ccc", 
+        caption = "Educational Attainment of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+
 ```
 
 
+```{r Table of Income, echo=T, include=T}
 
-City of Chicago's population in 2010 was 2.6 million, and this estimates 2.4 so 
-we are fairly close, a tract or two along the edges may have been excluded, but 
-the bulk of the city's population is here in the data set. 
-```{r Checking Data, include=T}
+percents  %>%
+  select(neighborhood, mean_median_income) %>%
+  kable(col.names = c("Area",
+                      "Mean Median Income*"), 
+        align = "ccc", 
+        caption = "Demographics of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down")) %>%
+  add_footnote("Value in Real 2010 USD; Values were calculated by taking the median income of each census tract and then taking the average among tracts in a given neighborhood or across all tracts")
 
-demo_2010
+
 
 ```
 
+City of Chicago's population in 2010 was 2.6 million, and this estimates
+2.4 so we are fairly close, a tract or two along the edges may have been
+excluded, but the bulk of the city's population is here in the data set.
 
-```{r Further Checking, include=T}
-demo_2010 %>% 
-  filter(neighborhood == "ENGLEWOOD") %>%
-  print()
+```{r Checking Data}
 
 
-sum(demo_2010$h_native)
+
 ```
 
+```{r Further Checking}
+
+```
