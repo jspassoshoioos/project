@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 I load some packages that I may need for this data set. RSocrata is specifically
 used for the Chicago Data Portal API data.
 ```{r libraries for apis, echo=FALSE}
-#install.packages(c("httr", "jsonlite"))
+#install.packages(c("httr", "jsonlite", "RSocrata))
 library(httr)
 library(jsonlite)
 library(RSocrata)
@@ -51,98 +51,97 @@ ride data by each weekday for every station. On the rail system, a customer is
 counted as an "entry" each time he or she passes through a turnstile to enter 
 a station.  Customers are not counted as "entries" when they make a 
 "cross-platform" transfer from one rail line to another, since they don't pass 
-through a turnstile. Where the number given for rail is in "boardings," what's 
+through a turnstile. Where the number given for rail is in "boardings" what's 
 presented is a statistically valid estimate of the actual number of boardings 
 onto the rail system.
 ```{r filter for our stations and by weekday rides}
 cta1 <- as_tibble(
   cta %>%
-  group_by(stationname) %>%
-  filter(stationname %in% c("Jarvis", "Wilson", "Clark/Division", "Addison",
-                            "Cermak-Chinatown", "Garfield", "95th/Dan Ryan"),
+  group_by(station_id) %>%
+  filter(station_id %in% c("41190", "40540", "40630", "41240",
+                            "41000", "41170", "40450"),
          daytype == "W") %>% #W is the weekday ridership information
-  mutate(date = as.character(date),
+  mutate(date = as.Date(date),
          rides = as.numeric(rides))
 )
 cta1
 ```
-The dates are presented in year-month-day format in one column. I'm going to
-separate those columns so I can filter my data.
-```{r}
-cta1 <- 
-  cta1 %>%
-  separate(date, into = c("year", "month", "day", sep = "-"))
-cta1
-```
 
-```{r}
+The dates are presented in year-month-day format in one column which is great for when I look at
+ranges of ridership. But I want to report station averages by month so I'm going to
+separate the date into new columns so I can filter my data.
+```{r filtering for the data I want and new date columns}
 cta2 <- 
   cta1 %>%
-  group_by(stationname, year, rides) %>%
-  filter(year %in% c(2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019))
+  group_by(stationname, date, rides) %>%
+  filter(date >= as.Date("2008-10-01") & date <= as.Date("2020-01-31")) %>%
+  mutate(month = format(date, "%m"), year = format(date, "%Y"))
 cta2
 ```
 
-
-```{r}
+Specific month for beginning of Addison project was unavailable, Fall 2015 was the
+information we had so we chose to look at ridership between Oct 2014- Oct 2015.
+```{r ridership averages by station}
 Cer_Chi <- 
   cta2 %>%
-  filter(stationname == "Cermak-Chinatown" & year == 2009 | year == 2011) %>%
+  filter(stationname == "Cermak-Chinatown") %>%
   group_by(month) %>%
-  summarise(Cer_Chi_bef = mean(rides[year == 2009]),
-            Cer_Chi_aft = mean(rides[year == 2011]))
+  summarise(Cer_Chi_bef = mean(rides[date > as.Date("2008-10-01") & date < as.Date("2009-11-01")]),
+            Cer_Chi_aft = mean(rides[date > as.Date("2011-04-30") & date < as.Date("2012-05-01")]))
 Cer_Chi
 
 Clark_Div <- 
   cta2 %>%
-  filter(stationname == "Clark/Division" & year == 2012 | year == 2015) %>%
+  filter(stationname == "Clark/Division") %>%
   group_by(month) %>%
-  summarise(Clark_Div_bef = mean(rides[year == 2012]),
-            Clark_Div_aft = mean(rides[year == 2015]))
+  summarise(Clark_Div_bef = mean(rides[date > as.Date("2011-09-01") & date < as.Date("2012-09-01")]),
+            Clark_Div_aft = mean(rides[date > as.Date("2015-09-30") & date < as.Date("2016-10-01")]))
 Clark_Div
 
 Jarvis <- 
   cta2 %>%
-  filter(stationname == "Jarvis" & year == 2012 | year == 2013) %>%
+  filter(stationname == "Jarvis") %>%
   group_by(month) %>%
-  summarise(Jarvis_bef = mean(rides[year == 2012]),
-            Jarivs_aft = mean(rides[year == 2013]))
+  summarise(Jarvis_bef = mean(rides[date > as.Date("2011-11-01") & date < as.Date("2012-11-01")]),
+            Jarivs_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")]))
 Jarvis
 
 Garfield <- 
   cta2 %>%
-  filter(stationname == "Garfield" & year == 2013 | year == 2014) %>%
+  filter(stationname == "Garfield-Dan Ryan") %>%
   group_by(month) %>%
-  summarise(Garf_bef = mean(rides[year == 2013]),
-            Garf_aft = mean(rides[year == 2014]))
+  summarise(Garf_bef = mean(rides[date > as.Date("2012-05-01") & date < as.Date("2013-05-01")]),
+            Garf_aft = mean(rides[date > as.Date("2013-10-31") & date < as.Date("2014-11-01")]))
 Garfield
 
 Wilson <- 
   cta2 %>%
-  filter(stationname == "Wilson" & year == 2014 | year == 2017) %>%
+  filter(stationname == "Wilson") %>%
   group_by(month) %>%
-  summarise(Wilson_bef = mean(rides[year == 2014]),
-            Wilson_aft = mean(rides[year == 2017]))
+  summarise(Wilson_bef = mean(rides[date > as.Date("2013-09-30") & date < as.Date("2014-10-01")]),
+            Wilson_aft = mean(rides[date > as.Date("2017-10-03") & date < as.Date("2018-10-04")]))
 Wilson
 
 Addison <- 
   cta2 %>%
-  filter(stationname == "Addison" & year == 2015 | year == 2017) %>%
+  filter(stationname == "Addison-O'Hare") %>%
   group_by(month) %>%
-  summarise(Addison_bef = mean(rides[year == 2015]),
-            Addison_aft = mean(rides[year == 2017]))
+  summarise(Addison_bef = mean(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
+            Addison_aft = mean(rides[date > as.Date("2016-11-30") & date < as.Date("2017-11-01")]))
 Addison
 
 DanRyan <- 
   cta2 %>%
-  filter(stationname == "95th/Dan Ryan" & year == 2016 | year == 2019) %>%
+  filter(stationname == "95th/Dan Ryan") %>%
   group_by(month) %>%
-  summarise(Dan_bef = mean(rides[year == 2016]),
-            Dan_aft = mean(rides[year == 2019]))
+  summarise(Dan_bef = mean(rides[date > as.Date("2016-02-29") & date < as.Date("2017-03-01")]),
+            Dan_aft = mean(rides[date > as.Date("2019-01-31") & date < as.Date("2020-02-01")]))
 DanRyan
 ```
 
-```{r}
+When using cbind it will include the month rows for each data set so I will need to join the data
+sets using a join function so that they are joined by the month column.
+```{r bind attempt}
 cta3 <- 
   cbind(Cer_Chi, Clark_Div, Jarvis, Garfield, Wilson, Addison, DanRyan)
 
@@ -150,7 +149,8 @@ cta3 %>%
   kable()
 ```
 
-```{r}
+I am unable to join all of the data together in one command so I have to add one each time.
+```{r joining data sets}
 join <- 
   left_join(Cer_Chi, Clark_Div)
 join
@@ -183,12 +183,137 @@ CTA_data %>%
                      "After", "Before", "After", "Before", "After"),
         align = c("ccccccccccccccc"),
         digits = c(0,2,2,2,2,2,2,2,2,2,2,2,2,2,2),
-        caption = "Average Ridership Before and After CTA Project Completion") %>%
+        caption = "Average Daily Ridership for a Given Month Before and After CTA Project Completion") %>%
   
   kable_classic(font_size = 16,
                  html_font = "Times New Roman",
                  full_width = F) %>%
   add_header_above(c("", "Cer-Chinatown" = 2, "Clark/Division" = 2, "Jarvis" = 2,
                      "Garfield" = 2, "Wilson" = 2, "Addison" = 2, "95th/Dan Ryan" = 2))
+```
+To see our system wide changes
+```{r system changes}
+cta_system <- 
+  cta %>%
+  filter(daytype == "W") %>%
+  mutate(date = as.Date(date),
+         rides = as.numeric(rides),
+         month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d"))
+```
+
+
+```{r}
+#cta %>%
+  #filter(daytype == "W",
+         #date <= as.Date("2013-12-31") & date >= as.Date("2012-12-01")) %>%
+  #mutate(rides = as.numeric(rides)) %>% 
+  #mutate(month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d")) %>%
+  #group_by(month, day) %>%
+  #summarise(monthday_tot = sum(rides)) %>% 
+  #group_by(month) %>% 
+  #summarise(mean = mean(monthday_tot))
+
+```
+
+
+
+```{r }
+System_Cermak <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Cermak = sum(rides[date > as.Date("2008-10-31") & date < as.Date("2009-11-01")]),
+            Mon_aft_Cermak = sum(rides[date > as.Date("2011-03-31") & date < as.Date("2012-04-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Cermak),
+            after_mean = mean(Mon_aft_Cermak)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Cermak
+
+System_Clark_Division <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Clark_Division = sum(rides[date > as.Date("2011-08-31") & date < as.Date("2012-09-01")]),
+            Mon_aft_Clark_Division = sum(rides[date > as.Date("2015-08-31") & date < as.Date("2016-09-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Clark_Division),
+            after_mean = mean(Mon_aft_Clark_Division)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Clark_Division
+
+System_Jarvis <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Jarvis = sum(rides[date > as.Date("2011-10-31") & date < as.Date("2012-11-01")]),
+            Mon_aft_Jarvis = sum(rides[date > as.Date("2012-11-30") & date < as.Date("2013-12-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Jarvis),
+            after_mean = mean(Mon_aft_Jarvis)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Jarvis
+
+System_Garfield <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Garf = sum(rides[date > as.Date("2012-05-01") & date < as.Date("2013-05-01")]),
+            Mon_aft_Garf = sum(rides[date > as.Date("2013-10-31") & date < as.Date("2014-11-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Garf),
+            after_mean = mean(Mon_aft_Garf)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Garfield
+
+System_Wilson <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Wilson = sum(rides[date > as.Date("2013-09-30") & date < as.Date("2014-10-01")]),
+            Mon_aft_Wilson = sum(rides[date > as.Date("2017-09-30") & date < as.Date("2018-10-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Wilson),
+            after_mean = mean(Mon_aft_Wilson)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Wilson
+
+System_Addison <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Addison = sum(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
+            Mon_aft_Addison = sum(rides[date > as.Date("2016-11-30") & date < as.Date("2017-11-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Addison),
+            after_mean = mean(Mon_aft_Addison)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)  
+System_Addison
+
+System_DanRyan <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Dan = sum(rides[date > as.Date("2016-02-29") & date < as.Date("2017-03-01")]),
+            Mon_aft_Dan = sum(rides[date > as.Date("2019-01-31") & date < as.Date("2020-02-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Dan),
+            after_mean = mean(Mon_aft_Dan)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_DanRyan
+```
+
+```{r join system data}
+sys_join <- 
+rbind(System_Cermak, System_Clark_Division, System_Jarvis, System_Garfield, System_Wilson, System_Addison, System_DanRyan)
+sys_join
+```
+
+```{r table the thing}
+sys_join %>%
+  kable() %>%
+  kable_styling() %>%
+  pack_rows(index = c("Cermak-Chinatown" = 12, "Clark/Division" = 12, "Jarvis" = 12, 
+                      "Garfield" = 12, "Wilson" = 12, "Addison" = 12, "95th/Dan Ryan" = 12))
 ```
 
