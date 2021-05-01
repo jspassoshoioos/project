@@ -87,7 +87,9 @@ Cer_Chi <-
   filter(stationname == "Cermak-Chinatown") %>%
   group_by(month) %>%
   summarise(Cer_Chi_bef = mean(rides[date > as.Date("2008-10-01") & date < as.Date("2009-11-01")]),
-            Cer_Chi_aft = mean(rides[date > as.Date("2011-04-30") & date < as.Date("2012-05-01")]))
+            Cer_Chi_aft = mean(rides[date > as.Date("2011-04-30") & date < as.Date("2012-05-01")])) %>% 
+  mutate(diff_mean = Cer_Chi_aft - Cer_Chi_bef,
+         perc_mean = ((Cer_Chi_aft - Cer_Chi_bef)/ Cer_Chi_bef)*100)
 Cer_Chi
 
 Clark_Div <- 
@@ -95,7 +97,9 @@ Clark_Div <-
   filter(stationname == "Clark/Division") %>%
   group_by(month) %>%
   summarise(Clark_Div_bef = mean(rides[date > as.Date("2011-09-01") & date < as.Date("2012-09-01")]),
-            Clark_Div_aft = mean(rides[date > as.Date("2015-09-30") & date < as.Date("2016-10-01")]))
+            Clark_Div_aft = mean(rides[date > as.Date("2015-09-30") & date < as.Date("2016-10-01")])) %>% 
+  mutate(diff_mean = Clark_Div_aft - Clark_Div_bef,
+         perc_mean = ((Clark_Div_aft - Clark_Div_bef)/ Clark_Div_bef)*100)
 Clark_Div
 
 Jarvis <- 
@@ -103,7 +107,9 @@ Jarvis <-
   filter(stationname == "Jarvis") %>%
   group_by(month) %>%
   summarise(Jarvis_bef = mean(rides[date > as.Date("2011-11-01") & date < as.Date("2012-11-01")]),
-            Jarivs_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")]))
+            Jarivs_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")])) %>% 
+  mutate(diff_mean = Jarvis_aft - Jarvis_bef,
+         perc_mean = ((Jarvis_aft - Jarvis_bef)/ Jarvis_bef)*100)
 Jarvis
 
 Garfield <- 
