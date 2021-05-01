@@ -107,7 +107,7 @@ Jarvis <-
   filter(stationname == "Jarvis") %>%
   group_by(month) %>%
   summarise(Jarvis_bef = mean(rides[date > as.Date("2011-11-01") & date < as.Date("2012-11-01")]),
-            Jarivs_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")])) %>% 
+            Jarvis_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")])) %>% 
   mutate(diff_mean = Jarvis_aft - Jarvis_bef,
          perc_mean = ((Jarvis_aft - Jarvis_bef)/ Jarvis_bef)*100)
 Jarvis
@@ -166,7 +166,7 @@ cta3 %>%
 I am unable to join all of the data together in one command so I have to add one each time.
 ```{r joining data sets}
 join <- 
-  left_join(Cer_Chi, Clark_Div)
+  left_join(Cer_Chi, Clark_Div, by = "month")
 join
 
 join1 <- 
@@ -174,7 +174,7 @@ join1 <-
 join1
 
 join2 <- 
-  left_join(join1, Garfield)
+  left_join(join1, Garfield, by = "month")
 join2
 
 join3 <- 
@@ -182,7 +182,7 @@ join3 <-
 join3
 
 join4 <- 
-  left_join(join3, Addison)
+  left_join(join3, Addison, by = "month")
 join4
 
 CTA_data <- 
@@ -192,19 +192,22 @@ CTA_data
 
 ```{r}
 CTA_data %>%
-  kable(col.names = c("Month", "Before", "After", "Before", "After", 
-                     "Before", "After", "Before", "After", "Before", 
-                     "After", "Before", "After", "Before", "After"),
-        align = c("ccccccccccccccc"),
-        digits = c(0,2,2,2,2,2,2,2,2,2,2,2,2,2,2),
+  kable(col.names = c("Month", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", 
+                      "Diff Mean", "Perc Mean", 
+                     "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before",  "After",
+                     "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean"),
+        align = c("ccccccccccccccccccccccccccccc"),
+        digits = c(0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2),
         caption = "Average Daily Ridership for a Given Month Before and After CTA Project Completion") %>%
   
   kable_classic(font_size = 16,
                  html_font = "Times New Roman",
                  full_width = F) %>%
-  add_header_above(c("", "Cer-Chinatown" = 2, "Clark/Division" = 2, "Jarvis" = 2,
-                     "Garfield" = 2, "Wilson" = 2, "Addison" = 2, "95th/Dan Ryan" = 2))
+  add_header_above(c("", "Cer-Chinatown" = 4, "Clark/Division" = 4, "Jarvis" = 4,
+                     "Garfield" = 4, "Wilson" = 4, "Addison" = 4, "95th/Dan Ryan" = 4))
 ```
+
+
 To see our system wide changes
 ```{r system changes}
 cta_system <- 
