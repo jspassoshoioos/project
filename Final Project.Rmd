@@ -2,30 +2,52 @@
 title: "Final Project"
 author: "Mia Krout & Jake da Silva Passos-Hoioos"
 date: "4/25/2021"
-output: html_document
+output: pdf_document
 ---
 
+
+
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
 ```
 
+# Introduction
+
+# Data Prep and Cleaning
+
+```{r Packages}
 # install.packages("tidyverse")
 # install.packages("censusapi")
 
 library(tidyverse) 
 library(censusapi)
+library(kableExtra)
+#install.packages("threeparttablex", repos = "http://cran.us.r-project.org"
+
+```
+
+**Please Note**: The Census Bureau requires users to obtain their own
+personal API key. The code chunk titled "API Key" contains an empty
+string for you to insert your own API key. This chunk has been excluded
+from the text of this report for brevity.
 
 ```{r API, include=F}
 # Only run the below the first time you are setting up the API key
 #
-# Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
+# Insert your actual API Key before runing if not Mia or Jake
+Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
 #
-# readRenviron("~/.Renviron")
-# Sys.getenv("CENSUS_KEY")
+readRenviron("~/.Renviron")
+Sys.getenv("CENSUS_KEY")
 
 ```
 
-```{r Looking at Data, include=T}
+The package censusapi contains metadata about each of the available APIs
+and the data accessible from said APIs, and can be quite useful when
+trying to identify the relevant data set.
+
+```{r Looking at Data}
 apis <- listCensusApis()
 
 view(apis)
@@ -41,62 +63,155 @@ project_geo <- listCensusMetadata(name = "dec/sf1", vintage = 2010, type = "geog
 head(project_geo)
 ```
 
-```{r  Calling Data, include=T}
-
-# NEED TO DEFINE DEMO VARS 
+```{r  Calling Data}
 
 demo_2010 <- as_tibble(
-  getCensus(name = "acs/acs5", 
-            vintage = 2010, 
-            vars = c("NAME",
-                     "B03002_001E", # Total Race/Ethnicity 
+  getCensus(name = "acs/acs5", # name specifies the census data, in this case the ACS 5 year ests.  
+            vintage = 2010, # For non-time series data vintage = year 
+            vars = c("NAME", # Provides name of jurisdiction (here tracts)
+                     "B03002_001E", ### Total Race/Ethnicity 
                      "B03002_002E", # Total Non-Hispanic
-                     "B03002_003E",
-                     "B03002_004E",
-                     "B03002_005E",
-                     "B03002_006E",
-                     "B03002_007E",
-                     "B03002_008E",
-                     "B03002_009E",
-                     "B03002_010E",
-                     "B03002_011E",
-                     "B03002_012E",
-                     "B03002_013E",
-                     "B03002_014E",
-                     "B03002_015E",
-                     "B03002_016E",
-                     "B03002_017E",
-                     "B03002_018E",
-                     "B03002_019E",
-                     "B03002_020E",
-                     "B03002_021E", 
-                     "B06011_001E"), # Median Income 
-            region ="tract:*", 
-            regionin =  "state:17+county:031")) 
+                     "B03002_003E", # Non-Hispanic White
+                     "B03002_004E", # Non-Hispanic Black
+                     "B03002_005E", # Non-Hispanic Native American
+                     "B03002_006E", # Non-Hispanic Asian
+                     "B03002_007E", # Non-Hispanic Hawaiian or Pacific Islander
+                     "B03002_008E", # Non-Hispanic Other
+                     "B03002_009E", # Non-Hispanic Two or more races (Multiracial)
+                     "B03002_012E", # Total Hispanic
+                     "B03002_013E", # Hispanic White
+                     "B03002_014E", # Hispanic Black
+                     "B03002_015E", # Hispanic Native American
+                     "B03002_016E", # Hispanic Asian
+                     "B03002_017E", # Hispanic Hawaiian or Pacific Islander
+                     "B03002_018E", # Hispanic Other 
+                     "B03002_019E", # Hispanic Two or more races (Multiracial)
+                     "B15002_001E", # Total Educ
+                     "B15002_002E", # Total Educ - Males
+                     "B15002_003E", # Males Less than HS 
+                     "B15002_004E", # Males Less than HS 
+                     "B15002_005E", # Males Less than HS 
+                     "B15002_006E", # Males Less than HS 
+                     "B15002_007E", # Males Less than HS 
+                     "B15002_008E", # Males Less than HS 
+                     "B15002_009E", # Males Less than HS 
+                     "B15002_010E", # Males Less than HS
+                     "B15002_011E", # Males HS or some college 
+                     "B15002_012E", # Males HS or some college
+                     "B15002_013E", # Males HS or some college
+                     "B15002_014E", # Males College degree +  
+                     "B15002_015E", # Males College degree + 
+                     "B15002_016E", # Males College degree +
+                     "B15002_017E", # Males College degree + 
+                     "B15002_018E", # Males College degree + 
+                     "B15002_019E", # Total Educ - Females
+                     "B15002_020E", # Females Less than HS 
+                     "B15002_021E", # Females Less than HS 
+                     "B15002_022E", # Females Less than HS 
+                     "B15002_023E", # Females Less than HS 
+                     "B15002_024E", # Females Less than HS 
+                     "B15002_025E", # Females Less than HS 
+                     "B15002_026E", # Females Less than HS 
+                     "B15002_027E", # Females Less than HS 
+                     "B15002_028E", # Females HS or some college
+                     "B15002_029E", # Females HS or some college
+                     "B15002_030E", # Females HS or some college
+                     "B15002_031E", # Females College degree + 
+                     "B15002_032E", # Females College degree +
+                     "B15002_033E", # Females College degree +
+                     "B15002_034E", # Females College degree +
+                     "B15002_035E", # Females College degree +
+                     "B16001_001E", ### Total Language Spoken at Home
+                     "B16001_002E", # English only
+                     "B16001_003E", # Spanish Total
+                     "B16001_004E", # Spanish, English Very Well 
+                     "B16001_005E", # Spanish, English Less Than Very Well  
+                     "B16001_036E", # Polish Total
+                     "B16001_037E", # Polish, English Very Well  
+                     "B16001_038E", # Polish, English Less Than Very Well  
+                     "B16001_066E", # Chinese Total 
+                     "B16001_067E", # Chinese, English Very Well 
+                     "B16001_068E", # Chinese, English Less Than Very Well 
+                     "B16001_093E", # Tagalog (incl. Filipino) Total
+                     "B16001_094E", # Tagalog, English Very Well
+                     "B16001_095E", # Tagalog, English Less Than Very Well
+                     "B16001_108E", # Arabic Total
+                     "B16001_109E", # Arabic, English Very Well
+                     "B16001_110E", # Arabic, English Less Than Very Well
+                     "B19013_001E"), # Median Income
+            region = "tract:*", # Indicates we want tract level data 
+            regionin =  "state:17+county:031")  # ID State and County using FIPS
+)
 
 ```
 
+Public census data is available at various jurisdiction levels, from
+multi-state regions down to individual block groups. For our project,
+our interest was on Chicago community areas, which approximate Chicago's
+various neighborhoods. Each of these areas are comprised of many
+individual census tracts. For our analysis, we used maps published by
+the City of Chicago identifying each community area and the census
+tracts that comprise that community. After identifying each of the
+community areas for each improvement project, we then used the
+identified census tracts to calculate the approximate populations of
+each community.
+
 ```{r Cleaning Data}
-demo_2010 <- demo_2010 %>% 
-  mutate(nonhisp_multi = B03002_009E + B03002_010E + B03002_011E, .keep = "unused") %>% 
-  mutate(hisp_multi = B03002_019E + B03002_020E + B03002_021E, .keep = "unused") %>% 
-  rename(race_eth_total = B03002_001E,
-         nonhisp_all = B03002_002E,
-         nonhisp_white = B03002_003E, 
-         nonhisp_black = B03002_004E,
-         nonhisp_native = B03002_005E, 
-         nonhisp_asian = B03002_006E, 
-         nonhisp_pi = B03002_007E, 
-         nonhisp_other = B03002_008E,
-         hisp_all = B03002_012E, 
-         hisp_white = B03002_013E, 
-         hisp_black = B03002_014E, 
-         hisp_native = B03002_015E, 
-         hisp_asian = B03002_016E, 
-         hisp_pi = B03002_017E, 
-         hisp_other = B03002_018E,
-         median_income = B06011_001E) %>% 
-    mutate(tract = as.numeric(tract), .keep = "unused") %>% 
+
+chicago_2010 <- demo_2010 %>% 
+  rename(re_total = B03002_001E,
+         nh_total = B03002_002E,
+         nh_white = B03002_003E, 
+         nh_black = B03002_004E,
+         nh_native = B03002_005E, 
+         nh_asian = B03002_006E, 
+         nh_pi = B03002_007E, 
+         nh_other = B03002_008E,
+         nh_multi = B03002_009E,
+         h_total = B03002_012E, 
+         h_white = B03002_013E, 
+         h_black = B03002_014E, 
+         h_native = B03002_015E, 
+         h_asian = B03002_016E, 
+         h_pi = B03002_017E, 
+         h_other = B03002_018E,
+         h_multi = B03002_019E, 
+         lang_total = B16001_001E, 
+         eng = B16001_002E, 
+         sp_total = B16001_003E,
+         sp_gd_eng = B16001_004E, 
+         sp_bd_eng = B16001_005E, 
+         plsk_total = B16001_036E,
+         plsk_gd_eng = B16001_037E,
+         plsk_bd_eng = B16001_038E, 
+         chn_total = B16001_066E, 
+         chn_gd_eng = B16001_067E, 
+         chn_bd_eng = B16001_068E, 
+         flp_total = B16001_093E,
+         flp_gd_eng = B16001_094E, 
+         flp_bd_eng = B16001_095E, 
+         arab_total = B16001_108E, 
+         arab_gd_eng = B16001_109E, 
+         arab_bd_eng = B16001_110E, 
+         edu_total = B15002_001E, 
+         median_income = B19013_001E) %>%
+  mutate(native_gd_eng = eng + sp_gd_eng + plsk_gd_eng + chn_gd_eng + flp_gd_eng + arab_gd_eng,
+         not_eng = sp_total + plsk_total + chn_total + flp_total + arab_total, 
+         bd_eng = sp_bd_eng + plsk_bd_eng + chn_bd_eng + flp_bd_eng + arab_bd_eng, 
+         no_hs = B15002_003E + B15002_004E + B15002_005E + B15002_006E + B15002_007E +
+         B15002_008E + B15002_009E + B15002_010E + B15002_020E + B15002_021E + B15002_022E + 
+         B15002_023E + B15002_024E + B15002_025E + B15002_026E + B15002_027E,
+         hs = B15002_011E + B15002_012E + B15002_013E + B15002_028E + B15002_029E + B15002_030E,
+         uni = B15002_014E + B15002_015E + B15002_016E + B15002_017E + B15002_018E + B15002_031E + B15002_032E + B15002_033E + B15002_034E + B15002_035E, 
+         ) %>%
+  select(everything(), -matches("B15002")) %>% 
+  mutate(tract = as.numeric(tract), .keep = "unused") %>% 
+  filter((tract >= 010100 & tract <= 750600) | tract == 760800
+         | (tract >= 770500 & tract <= 770700) | tract == 770900 | tract == 810400
+         | (tract >= 810400 & tract <= 810600) | tract == 810600 | tract == 811600
+         | tract == 823304 | tract == 820902 | tract == 811600 | tract == 840000 
+         |  tract == 840801) %>% # Filter only for tracts in Chicago
+  filter(tract != 381700) %>% # This tract has no one in it and weird negative income values
   mutate(neighborhood = if_else((tract >= 010100) & (tract <= 010999),
                                 "RODGERS PARK",
                                 if_else((tract >= 031000) & (tract <= 032199),
@@ -110,31 +225,229 @@ demo_2010 <- demo_2010 %>%
                                                                 if_else((tract >= 680100) & (tract <= 681499), 
                                                                         "ENGLEWOOD", 
                                                                         ifelse((tract >= 490100) & (tract <= 491499), 
-                                                                                "ROSEWOOD", 
-                                                                                NA)
+                                                                                "ROSEWOOD",
+                                                                                "REST OF CITY") # Rest of Chicago. 
                                                                         )
                                                                 )
                                                         )
                                                 )
                                         )
                                 )
+         ) 
+
+chicago_2010
+  
+```
+
+```{r Reviewing data}
+
+mm_inc <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
+  group_by(neighborhood) %>%
+  select(neighborhood, median_income) %>% 
+  summarise(mean_median_income = mean(median_income)) %>% 
+  select(mean_median_income)
+  
+city_inc <- chicago_2010 %>% 
+  select(median_income) %>% 
+  summarise(mean_median_income = mean(median_income))
+
+cta_inc <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
+  select(median_income) %>% 
+  summarise(mean_median_income = mean(median_income))
+
+#chicago_2010 %>% 
+#  select(everything(), -tract, -median_income) %>% 
+#  group_by(neighborhood) %>% 
+#  summarise(across(everything()), mean)
+
+city_per <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, # Need to make note that only NH White and H White are separated, all others are combined
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, # Also note combo of Asian and Pacific Islander (AAPI)
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  # Make note of combo of other race and multi racial
+  ) 
+
+city_wide <- cbind("CITY WIDE", city_per, city_inc) %>% 
+  rename(neighborhood = `"CITY WIDE"`)
+
+cta_per <- chicago_2010 %>% 
+  filter(neighborhood != "REST OF CITY") %>%
+  select(everything(), -tract, -median_income) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, 
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, 
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  
+  )
+
+cta_wide <- cbind("AREAS WITH CTA IMPROVEMENT", cta_per, cta_inc) %>% 
+  rename(neighborhood = `"AREAS WITH CTA IMPROVEMENT"`)
+  
+
+percents <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>%
+  filter(neighborhood != "REST OF CITY") %>%
+  group_by(neighborhood) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(neighborhood = neighborhood,
+         native_gd_per = (native_gd_eng / lang_total) * 100, 
+         bd_eng_per = (bd_eng / lang_total) * 100,
+         not_eng_per = (not_eng / lang_total) * 100,
+         primary_sp = (sp_total / lang_total) * 100,
+         no_hs_per = (no_hs / edu_total) * 100,
+         hs_per = (hs / edu_total) * 100,
+         uni_per = (uni / edu_total) * 100, 
+         nh_white_per = (nh_white / re_total) * 100,
+         h_white_per = (h_white / re_total) * 100, # Need to make note that only NH White and H White are separated, all others are combined
+         black_per = ((nh_black + h_black) / re_total) * 100,
+         aapi_per = ((nh_asian + h_asian + nh_pi + h_pi) / re_total) * 100, # Also note combo of Asian and Pacific Islander (AAPI)
+         othermulti_per = (((nh_other + h_other + nh_multi + h_multi) / re_total) * 100)  # Make note of combo of other race and multi racial
   ) %>% 
-  filter(!is.na(neighborhood)) 
+  cbind(mm_inc) %>%
+  rbind(cta_wide, city_wide)
+
+
+percents$neighborhood <- str_to_title(percents$neighborhood)
 ```
 
-```{r Checking Data, include=T}
+```{r Lang check}
+# English and Spanish are going to be highest but let's see how our neighborhoods 
+# do in terms of the other languages from Chicago's top 6. 
 
-demo_2010
+lang <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>%
+  filter(neighborhood != "REST OF CITY") %>%
+  group_by(neighborhood) %>% 
+  summarise(across(where(is.numeric), sum)) %>%
+  select(neighborhood, lang_total:sp_total, plsk_total, chn_total, flp_total, arab_total) %>%
+  transmute(neighborhood = neighborhood,
+            eng_only = round((eng / lang_total) * 100, 2), 
+            primary_sp = round((sp_total / lang_total) * 100, 2), 
+            primary_plsk = round((plsk_total / lang_total) * 100, 2), 
+            primary_chn = round((chn_total / lang_total) * 100, 2), 
+            primary_flp = round((flp_total / lang_total) * 100, 2), 
+            primary_arab = round((arab_total / lang_total) * 100, 2)) 
+
+city_lang <- chicago_2010 %>% 
+  select(everything(), -tract, -median_income) %>% 
+  summarise(across(where(is.numeric), sum)) %>% 
+  transmute(eng_only = round((eng / lang_total) * 100, 2), 
+            primary_sp = round((sp_total / lang_total) * 100, 2), 
+            primary_plsk = round((plsk_total / lang_total) * 100, 2), 
+            primary_chn = round((chn_total / lang_total) * 100, 2), 
+            primary_flp = round((flp_total / lang_total) * 100, 2), 
+            primary_arab = round((arab_total / lang_total) * 100, 2))
+
+city_lang <- cbind("CITY WIDE", city_lang) %>% 
+  rename(neighborhood = `"CITY WIDE"`)
+
+dim(lang)
+dim(city_lang)
+
+all_lang <- rbind(lang, city_lang)
+
+all_lang
+
+# Only thing interesting is the 6% in Avondale given it's higher than the city-wide average
+# Everything else is what we would expect (high amount of Chinese spoken in Armour Square 
+# since Chinatown is there) and Avondale being primary Spanish, and Englewood and Rosewood being
+# almost entirely English (since it's 98% AA). Also Near North Side is predictably higher 
+# than city average for English. 
+
+```
+
+# Demographics Charts
+
+```{r Table of Race Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood, nh_white_per:othermulti_per) %>%
+  kable(col.names = c("Area",
+                      "Non-Hisp White", "Hisp White", "Black", "AAPI", "Other/Multiracial"), 
+        align = "ccc", 
+        caption = "Racial Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+
+```
+
+```{r Table of Lang Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood,  native_gd_per:primary_sp) %>%
+  kable(col.names = c("Area",
+                      "English Native or Very Well", "English Less than Very Well", "Primary not English", "Primary Language Spanish"), 
+        align = "ccc", 
+        caption = "Language Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+
+```
+
+```{r Table of Edu Data, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood, no_hs_per:uni_per) %>%
+  kable(col.names = c("Area",
+                      "Less Than a HS", "HS + Some College", "College Degree"), 
+        align = "ccc", 
+        caption = "Educational Attainment of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
 
 ```
 
 
-```{r Further Checking, include=T}
-demo_2010 %>% 
-  filter(neighborhood == "ENGLEWOOD") %>%
-  print()
+```{r Table of Income, echo=T, include=T}
+
+percents  %>%
+  select(neighborhood, mean_median_income) %>%
+  kable(col.names = c("Area",
+                      "Mean Median Income*"), 
+        align = "ccc", 
+        caption = "Demographics of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        digits = 2, 
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped", "scale_down")) %>%
+  add_footnote("Value in Real 2010 USD; Values were calculated by taking the median income of each census tract and then taking the average among tracts in a given neighborhood or across all tracts")
 
 
-sum(demo_2010$hisp_native)
+
 ```
 
+City of Chicago's population in 2010 was 2.6 million, and this estimates
+2.4 so we are fairly close, a tract or two along the edges may have been
+excluded, but the bulk of the city's population is here in the data set.
+
+```{r Checking Data}
+
+
+
+```
+
+```{r Further Checking}
+
+```
