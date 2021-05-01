@@ -1,0 +1,194 @@
+---
+title: "Final Project"
+author: "Mia Krout"
+date: "4/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+I load some packages that I may need for this data set. RSocrata is specifically
+used for the Chicago Data Portal API data.
+```{r libraries for apis, echo=FALSE}
+#install.packages(c("httr", "jsonlite"))
+library(httr)
+library(jsonlite)
+library(RSocrata)
+library(tidyverse)
+library(kableExtra)
+
+#API key ID: 7vwfj55tah2za8t0hmgcwkc2w
+#API key secret: 4vxjm7n1v7ddid1vhlx4hvn3v0k9dnagm8hc76xm8m7rsbt7jo
+```
+
+
+Here I call the ridership dataset.
+```{r, echo=FALSE}
+cta <- read.socrata("https://data.cityofchicago.org/resource/5neh-572f.json")
+cta
+```
+
+We decided to look at ridership for 7 stations that had projects completed between
+2009 and 2019. We chose stations in areas all throughout the city. If I look at
+a summary of this data I can see that I have information from Jan 2001 to
+Nov 30, 2020. This works for us as we wanted to have data for at least a year
+after a projected was completed but before the COVID pandemic affected ridership.
+Our most recent project was completed by Feb 2019 so that would give us a years 
+worth of data before the pandemic was in play in Chicago.
+```{r check out the data}
+summary(cta)
+```
+For our data we will focus on Jarvis station for the Red North Station Interim
+Improvements project; the Wilson Station Reconstruction; Clark/Division Station
+Renovation; Addison as part of Blue Line projects; Cermak-Chinatown Station
+Renovation; Garfield Station as part of the Red Line South Station Improvements;
+and the 95th Dan Ryan Terminal Reconstruction Project. I filter the data for
+the stations I want to include and to only show weekday ride counts. This has 
+ride data by each weekday for every station. On the rail system, a customer is 
+counted as an "entry" each time he or she passes through a turnstile to enter 
+a station.  Customers are not counted as "entries" when they make a 
+"cross-platform" transfer from one rail line to another, since they don't pass 
+through a turnstile. Where the number given for rail is in "boardings," what's 
+presented is a statistically valid estimate of the actual number of boardings 
+onto the rail system.
+```{r filter for our stations and by weekday rides}
+cta1 <- as_tibble(
+  cta %>%
+  group_by(stationname) %>%
+  filter(stationname %in% c("Jarvis", "Wilson", "Clark/Division", "Addison",
+                            "Cermak-Chinatown", "Garfield", "95th/Dan Ryan"),
+         daytype == "W") %>% #W is the weekday ridership information
+  mutate(date = as.character(date),
+         rides = as.numeric(rides))
+)
+cta1
+```
+The dates are presented in year-month-day format in one column. I'm going to
+separate those columns so I can filter my data.
+```{r}
+cta1 <- 
+  cta1 %>%
+  separate(date, into = c("year", "month", "day", sep = "-"))
+cta1
+```
+
+```{r}
+cta2 <- 
+  cta1 %>%
+  group_by(stationname, year, rides) %>%
+  filter(year %in% c(2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019))
+cta2
+```
+
+
+```{r}
+Cer_Chi <- 
+  cta2 %>%
+  filter(stationname == "Cermak-Chinatown" & year == 2009 | year == 2011) %>%
+  group_by(month) %>%
+  summarise(Cer_Chi_bef = mean(rides[year == 2009]),
+            Cer_Chi_aft = mean(rides[year == 2011]))
+Cer_Chi
+
+Clark_Div <- 
+  cta2 %>%
+  filter(stationname == "Clark/Division" & year == 2012 | year == 2015) %>%
+  group_by(month) %>%
+  summarise(Clark_Div_bef = mean(rides[year == 2012]),
+            Clark_Div_aft = mean(rides[year == 2015]))
+Clark_Div
+
+Jarvis <- 
+  cta2 %>%
+  filter(stationname == "Jarvis" & year == 2012 | year == 2013) %>%
+  group_by(month) %>%
+  summarise(Jarvis_bef = mean(rides[year == 2012]),
+            Jarivs_aft = mean(rides[year == 2013]))
+Jarvis
+
+Garfield <- 
+  cta2 %>%
+  filter(stationname == "Garfield" & year == 2013 | year == 2014) %>%
+  group_by(month) %>%
+  summarise(Garf_bef = mean(rides[year == 2013]),
+            Garf_aft = mean(rides[year == 2014]))
+Garfield
+
+Wilson <- 
+  cta2 %>%
+  filter(stationname == "Wilson" & year == 2014 | year == 2017) %>%
+  group_by(month) %>%
+  summarise(Wilson_bef = mean(rides[year == 2014]),
+            Wilson_aft = mean(rides[year == 2017]))
+Wilson
+
+Addison <- 
+  cta2 %>%
+  filter(stationname == "Addison" & year == 2015 | year == 2017) %>%
+  group_by(month) %>%
+  summarise(Addison_bef = mean(rides[year == 2015]),
+            Addison_aft = mean(rides[year == 2017]))
+Addison
+
+DanRyan <- 
+  cta2 %>%
+  filter(stationname == "95th/Dan Ryan" & year == 2016 | year == 2019) %>%
+  group_by(month) %>%
+  summarise(Dan_bef = mean(rides[year == 2016]),
+            Dan_aft = mean(rides[year == 2019]))
+DanRyan
+```
+
+```{r}
+cta3 <- 
+  cbind(Cer_Chi, Clark_Div, Jarvis, Garfield, Wilson, Addison, DanRyan)
+
+cta3 %>%
+  kable()
+```
+
+```{r}
+join <- 
+  left_join(Cer_Chi, Clark_Div)
+join
+
+join1 <- 
+  left_join(join, Jarvis)
+join1
+
+join2 <- 
+  left_join(join1, Garfield)
+join2
+
+join3 <- 
+  left_join(join2, Wilson)
+join3
+
+join4 <- 
+  left_join(join3, Addison)
+join4
+
+CTA_data <- 
+  left_join(join4, DanRyan)
+CTA_data
+```
+
+```{r}
+CTA_data %>%
+  kable(col.names = c("Month", "Before", "After", "Before", "After", 
+                     "Before", "After", "Before", "After", "Before", 
+                     "After", "Before", "After", "Before", "After"),
+        align = c("ccccccccccccccc"),
+        digits = c(0,2,2,2,2,2,2,2,2,2,2,2,2,2,2),
+        caption = "Average Ridership Before and After CTA Project Completion") %>%
+  
+  kable_classic(font_size = 16,
+                 html_font = "Times New Roman",
+                 full_width = F) %>%
+  add_header_above(c("", "Cer-Chinatown" = 2, "Clark/Division" = 2, "Jarvis" = 2,
+                     "Garfield" = 2, "Wilson" = 2, "Addison" = 2, "95th/Dan Ryan" = 2))
+```
+
