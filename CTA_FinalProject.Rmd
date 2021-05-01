@@ -79,7 +79,7 @@ cta2 <-
 cta2
 ```
 
-Specific month for beginning of Addison project was unavailable, Fall 2015 was the
+The specific month for beginning of Addison project was unavailable, Fall 2015 was the
 information we had so we chose to look at ridership between Oct 2014- Oct 2015.
 ```{r ridership averages by station}
 Cer_Chi <- 
@@ -137,7 +137,7 @@ Addison <-
   filter(stationname == "Addison-O'Hare") %>%
   group_by(month) %>%
   summarise(Addison_bef = mean(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
-            Addison_aft = mean(rides[date > as.Date("2016-11-30") & date < as.Date("2017-11-01")])) %>%
+            Addison_aft = mean(rides[date > as.Date("2016-11-30") & date < as.Date("2017-12-01")])) %>%
   mutate(diff_mean = Addison_aft - Addison_bef,
          perc_mean = ((Addison_aft - Addison_bef)/ Addison_bef)*100)
 Addison
@@ -299,7 +299,7 @@ System_Addison <-
   cta_system %>%
   group_by(month, day) %>%
   summarise(Mon_bef_Addison = sum(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
-            Mon_aft_Addison = sum(rides[date > as.Date("2016-11-30") & date < as.Date("2017-11-01")])) %>%
+            Mon_aft_Addison = sum(rides[date > as.Date("2016-11-30") & date < as.Date("2017-12-01")])) %>%
   group_by(month) %>%
   summarise(before_mean = mean(Mon_bef_Addison),
             after_mean = mean(Mon_aft_Addison)) %>%
