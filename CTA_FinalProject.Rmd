@@ -39,7 +39,7 @@ after a projected was completed but before the COVID pandemic affected ridership
 Our most recent project was completed by Feb 2019 so that would give us a years 
 worth of data before the pandemic was in play in Chicago.
 ```{r check out the data}
-summary(cta)
+#summary(cta)
 ```
 For our data we will focus on Jarvis station for the Red North Station Interim
 Improvements project; the Wilson Station Reconstruction; Clark/Division Station
@@ -334,5 +334,19 @@ sys_join %>%
                  full_width = F) %>%
   pack_rows(index = c("Cermak-Chinatown" = 12, "Clark/Division" = 12, "Jarvis" = 12, 
                       "Garfield" = 12, "Wilson" = 12, "Addison" = 12, "95th/Dan Ryan" = 12))
+```
+
+```{r}
+ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
+  geom_point(color = "Red") +
+  geom_line(group = 1, color = "Red") +
+  scale_y_continuous(limits = c(0, 30))
+```
+
+```{r}
+ggplot(DanRyan, aes(x = month, y = perc_mean)) +
+  geom_point(color = "Red") +
+  geom_line(group = 1, color = "Red") +
+  scale_y_continuous(limits = c(-25, 0))
 ```
 
