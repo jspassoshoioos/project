@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 I load some packages that I may need for this data set. RSocrata is specifically
 used for the Chicago Data Portal API data.
 ```{r libraries for apis, echo=FALSE}
-#install.packages(c("httr", "jsonlite", "RSocrata))
+install.packages(c("httr", "jsonlite", "RSocrata"))
 library(httr)
 library(jsonlite)
 library(RSocrata)
@@ -39,7 +39,7 @@ after a projected was completed but before the COVID pandemic affected ridership
 Our most recent project was completed by Feb 2019 so that would give us a years 
 worth of data before the pandemic was in play in Chicago.
 ```{r check out the data}
-#summary(cta)
+summary(cta)
 ```
 For our data we will focus on Jarvis station for the Red North Station Interim
 Improvements project; the Wilson Station Reconstruction; Clark/Division Station
@@ -155,12 +155,17 @@ DanRyan
 
 When using cbind it will include the month rows for each data set so I will need to join the data
 sets using a join function so that they are joined by the month column.
-```{r bind attempt}
+```{r cbind}
 cta3 <- 
   cbind(Cer_Chi, Clark_Div, Jarvis, Garfield, Wilson, Addison, DanRyan)
 
 cta3 %>%
   kable()
+```
+
+
+```{r rbind}
+
 ```
 
 I am unable to join all of the data together in one command so I have to add one each time.
@@ -326,6 +331,8 @@ rbind(System_Cermak, System_Clark_Division, System_Jarvis, System_Garfield, Syst
 sys_join
 ```
 
+
+
 ```{r table the thing}
 sys_join %>%
   kable() %>%
@@ -336,17 +343,82 @@ sys_join %>%
                       "Garfield" = 12, "Wilson" = 12, "Addison" = 12, "95th/Dan Ryan" = 12))
 ```
 
-```{r}
-ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
-  geom_point(color = "Red") +
-  geom_line(group = 1, color = "Red") +
-  scale_y_continuous(limits = c(0, 30))
+
+
+```{r Cermak vs System}
+ggplot() +
+  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean), 
+            color = "Red", group = 1) +
+  geom_point() + #Can't get the point to work for some reason when I combine the two data sets
+  geom_line(data = System_Cermak, aes(x = month, y = perc_mean), 
+            color = "Black", group = 1) +
+  geom_point(color = "Black") + #Can't get points with the multiple datasets
+  scale_y_continuous(limits = c(0, 30)) +
+  theme_classic()
 ```
 
-```{r}
-ggplot(DanRyan, aes(x = month, y = perc_mean)) +
-  geom_point(color = "Red") +
-  geom_line(group = 1, color = "Red") +
-  scale_y_continuous(limits = c(-25, 0))
+
+```{r DanRyan vs System}
+ggplot() +
+  geom_line(data = DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous(limits = c(-25,10)) +
+  theme_classic()
+```
+
+
+```{r Clark/Div vs System}
+ggplot() +
+  geom_line(data = Clark_Div, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Clark_Division, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  theme_classic()
+```
+
+
+```{r Addison vs System}
+ggplot() +
+  geom_line(data = Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Blue") +
+  geom_line(data = System_Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous(limits = c(-20,15)) +
+  theme_classic()
+```
+
+
+```{r Jarvis vs System}
+ggplot() +
+  geom_line(data = Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous(limits = c(-20,15)) +
+  theme_classic()
+```
+
+
+```{r Wilson vs System}
+ggplot() +
+  geom_line(data = Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous() +
+  theme_classic()
+```
+
+
+```{r Garfield vs System}
+ggplot() +
+  geom_line(data = Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous() +
+  theme_classic()
 ```
 
