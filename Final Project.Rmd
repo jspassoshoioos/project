@@ -501,7 +501,7 @@ neighborhood is predominately White, upper class households.
 
 # Data Prep and Cleaning - CTA Data
 
-```{r}
+```{r cta api keys}
 #API key ID: 7vwfj55tah2za8t0hmgcwkc2w
 #API key secret: 4vxjm7n1v7ddid1vhlx4hvn3v0k9dnagm8hc76xm8m7rsbt7jo
 
@@ -685,7 +685,10 @@ CTA_data <-
 CTA_data
 ```
 
-```{r}
+We made a table to inspect the station-level data and use as a reference point for our ridership changes.
+For brevity sake and ease of interpretation for our readers we found the visualization
+of this information in graph form to be more appropriate.
+```{r table the station data}
 CTA_data %>%
   kable(col.names = c("Month", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", 
                       "Diff Mean", "Perc Mean", 
@@ -732,7 +735,7 @@ cta_system <-
 We looked at the system-wide changes over the same period of each project to understand
 whether any changes in ridership were a result of investment or were following city-wide
 trends in ridership.
-```{r}
+```{r system wide}
 System_Cermak <- 
   cta_system %>%
   group_by(month, day) %>%
