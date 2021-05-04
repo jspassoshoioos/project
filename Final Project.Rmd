@@ -1314,17 +1314,21 @@ figures
 
 
 # Conclusions
+
 Our findings show very little growth in ridership above system-wide trends
 following improvements to our seven selected stations. The increase in ridership
 at the Cermak-Chinatown station is slightly higher than system-wide trends though
 this may also by due to external factors such as recovery of ridership after the 
 truck incident that made station improvements necessary. Other increases were 
-minor and in neighborhoods where increase would be predicted based on demographics.  
+minor and in neighborhoods where increase would be predicted based on demographics. 
+The most unexpected result, the steep decline in ridership experienced by 95th/Dan Ryan 
+is actually in line with the theoretical framework that improvements in minority 
+communities essentially amount to lip service, if not actively harming said communities. 
 
 Ultimately these data show that more research could be done to understand ridership
 trends, particularly in neighborhoods largely comprised of people of color. As we show, 
 ridership after the 95th/Dan Ryan station project drastically decreased, with the Garfield
-station seeing a decrease in ridership trends as well, though less dramatic. Future
+station seeing a slight decrease in ridership trends as well, though less dramatic. Future
 projects could explore whether bus ridership from these neighborhoods increased over 
 the course of improvement projects and whether trends perhaps remained constant after 
 project completion.
