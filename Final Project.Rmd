@@ -920,6 +920,16 @@ excluded, but the bulk of the city's population is here in the data set.
 Now that we have the data, we will begin with some basic plots of the percent 
 difference in means to see overall ridership changes. 
 
+```{r themes} 
+
+red_line <- theme_minimal() + 
+  theme(plot.title = element_text(color = "#c60c30", size = 16, face = "bold"), 
+        plot.subtitle = element_text(face = "bold.italic", size = 8), 
+        plot.caption = element_text(face = "italic", hjust = 0.5), 
+        legend.position = "bottom", legend.box = "vertical") 
+
+```
+
 ```{r, include=T}
 # First, Cermak-Chinatown
 
@@ -939,18 +949,28 @@ completed. But how did the system compare for the same time-period?
 
 ```{r Cermak vs System, include=T}
 plot_4 <- ggplot() +
+  geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5) +
   geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), 
-            color = "Red") +
-  geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), color = "Red") +
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
   geom_line(data = System_Cermak, aes(x = month, y = perc_mean), 
-            color = "Black", group = 1) +
-  geom_point(data = System_Cermak, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
+            color = "Black", group = 2) +
+  geom_point(data = System_Cermak, aes(x = month, y = perc_mean, group = 2, color = "Black")) + 
   scale_y_continuous(limits = c(0, 30)) +
-  geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "Red") + # Include average lines to help see average despite variation 
-  geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black")
+  labs(title = "Change in Ridership at Cermak-Chinatown vs. System Wide",
+       subtitle = "Difference in the average number of riders for the 12 month period before November 2009 and after April 2011",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("% Change in Mean Ridership") +
+  scale_color_manual(name = "Station", 
+                    labels = c("Cermak-Chinatown (Red Line)", "System-wide"), 
+                    values = c("#c60c30", "Black")) +
+  red_line
 
 plot_4
 
+#  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
 
 ```
 This is interesting, during the same time, the overall system saw general growth, but 
@@ -983,15 +1003,22 @@ and after the accident (i.e., February 2008 to February 2009):
 
 plot_4.1 <- ggplot() +
   geom_line(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), 
-            color = "Red") +
-  geom_point(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), color = "Red") +
-   geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "Red") 
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), color = "#c60c30") +
+  geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30") + 
+  xlab("Average Number of Riders per Month") +
+  labs(title = "Cermak-Chinatown") +
+  red_line
 
 plot_4.2 <- ggplot() +   
   geom_line(data = System_Cermak2, aes(x = month, y = before_mean), 
             color = "Black", group = 1) +
   geom_point(data = System_Cermak2, aes(x = month, y = before_mean, group = 1), color = "Black") +
-  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black") 
+  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black") + 
+  xlab("Average Number of Riders per Month") +
+  labs(title = "System-Wide") +
+  red_line + 
+  theme(plot.title = element_text(color = "Black", size = 16, face = "bold"))
 
 plot_4.3 <- ggarrange(plot_4.1, plot_4.2, nrow = 1, ncol = 2)
 
@@ -1003,13 +1030,21 @@ to see how this compares.
 ```{r }
 ggplot() +
   geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), 
-            color = "Red") +
-  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "Red") +
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "#c60c30") +
   geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), 
             color = "Black", group = 1) +
   geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
-  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "Red") + # Include average lines to help see average despite variation 
-  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black")
+  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30") + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black") +
+  labs(title = "Cermak-Chinatown vs. System Wide Feb. 2008 to Feb. 2009",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("% Change in Mean Ridership") +
+  scale_color_manual(name = "Station", 
+                    labels = c("Cermak-Chinatown (Red Line)", "System-wide"), 
+                    values = c("#c60c30", "Black")) +
+  red_line
 
 ```
 This shows us a very different story. Here we can see that while ridership growth
@@ -1026,23 +1061,42 @@ growth that was previously observed could in part be inflated by the timing of t
 # Was curious to see what the plot would look like if we plotted actual values before and after 
 # rather than the % difference. 
 
+
 a <- ggplot() +
   geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), 
-            color = "#ff9494") +
-  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), color = "#ff9494") + 
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#c60c30")) + 
   geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), 
-            color = "#fa0000") +
-  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), color = "#fa0000")  
+            color = "#ff0f3d") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1, color = "#ff0f3d"))  + 
+  scale_color_manual(name = "Time", 
+                    labels = c("Before)", "After"), 
+                    values = c("#c60c30", "#ff0f3d")) +
+  labs(title = "Cermak-Chinatown") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
+  red_line
   
 b <- ggplot() + 
-  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "#d1d1d1") +
-  geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "#d1d1d1") +
+  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "Black") +
+  geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_line(data = System_Cermak, aes(x = month, y = after_mean), 
-            color = "#000000", group = 1) +
-  geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1), color = "#000000") 
+            color = "Gray", group = 1) +
+  geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1, color = "Gray")) +
+  scale_color_manual(name = "Time", 
+                    labels = c("Before)", "After"), 
+                    values = c("Black", "Gray")) + 
+  labs(title = "System-Wide") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
+  red_line +
+  theme(plot.title = element_text(color = "Black", size = 16, face = "bold"))
 
 
-figure <- ggarrange(a, b, nrow = 1, ncol = 2)
+
+figure <- ggarrange(a, b, nrow = 1, ncol = 2) + 
+    labs(title = "Cermak-Chinatown vs. System Wide Actual Values",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") 
 
 figure
 
@@ -1080,7 +1134,17 @@ plot_7 <- ggplot() +
             group = 1, color = "Black") +
   scale_y_continuous(limits = c(-25,10)) +
   geom_hline(yintercept = mean(DanRyan$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") 
+  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") +
+  labs(title = "Change in Ridership at 95th/Dan Ryan vs. System Wide",
+       subtitle = "Difference in the average number of riders for the 12 month period before March 2017 and after January 2019",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("% Change in Mean Ridership") +
+  scale_color_manual(name = "Station", 
+                    labels = c("Cermak-Chinatown (Red Line)", "System-wide"), 
+                    values = c("#c60c30", "Black")) +
+  red_line
+
 
 plot_7
 ```
