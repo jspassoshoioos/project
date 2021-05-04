@@ -10,11 +10,25 @@ urlcolor: blue
 knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
 ```
 
-# Introudction 
+# Motivation and Research Questions
 
-## Motivation and Research Questions
+## Needed Packages
 
-# Background
+```{r libraries for apis, echo=FALSE}
+#install.packages(c("httr", "jsonlite", "RSocrata"))
+library(httr)
+library(jsonlite)
+library(RSocrata)
+library(tidyverse)
+library(kableExtra)
+library(ggpubr)
+library(censusapi)
+
+#API key ID: 7vwfj55tah2za8t0hmgcwkc2w
+#API key secret: 4vxjm7n1v7ddid1vhlx4hvn3v0k9dnagm8hc76xm8m7rsbt7jo
+```
+
+## Background
 
 It is a well known fact that the City of Chicago is a city of neighborhoods. In total
 Chicago has over 77 Community Areas, that roughly correspond (although they do not fully encapsulate) 
@@ -59,7 +73,7 @@ biases **do** exist. Rather than seek to add to the existing explanations for th
 seeks to observe them, to try and quantify it so as to better understand them so that they 
 can be more readily addressed and the historical wrongs to minority communities can be righted. 
 
-# Research Question 
+## Research Questions 
 
 With the focus now turned towards observing the known inequities that exist within
 the CTA, the scope of this research comes more easily into view. If it is accepted
@@ -125,7 +139,6 @@ a total population for the city of Chicago to be approximately 2.6 million, whil
 our the aggregate of our census data indicates a population estimate of approximatley 2.4 
 million. 
 
-
 To identify the specific improvement projects of interest, the [CTAs list](https://www.transitchicago.com/newsprojects/system-improvement-projects/completed-station-projects) of past projects
 was reviewed. From this list a deliberate sample was selected with the intent to ensure 
 that the group of improvements was a heterogeneous group with demographics comparable to the 
@@ -136,23 +149,12 @@ To see if there were any meaninful changes in the ridership before and after the
 
 # Data Prep and Cleaning - Census Data
 
-```{r Packages}
-# install.packages("tidyverse")
-# install.packages("censusapi")
-
-library(tidyverse) 
-library(censusapi)
-library(kableExtra)
-#install.packages("threeparttablex", repos = "http://cran.us.r-project.org"
-
-```
-
 **Please Note**: The Census Bureau requires users to obtain their own
 personal API key. The code chunk titled "API Key" contains an empty
 string for you to insert your own API key. This chunk has been excluded
 from the text of this report for brevity.
 
-```{r API, include=F}
+```{r Census API, include=F}
 # Only run the below the first time you are setting up the API key
 #
 # Insert your actual API Key before runing if not Mia or Jake
@@ -499,9 +501,11 @@ neighborhood is predominately White, upper class households.
 
 # Data Prep and Cleaning - CTA Data
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, include=FALSE}
+#API key ID: 7vwfj55tah2za8t0hmgcwkc2w
+#API key secret: 4vxjm7n1v7ddid1vhlx4hvn3v0k9dnagm8hc76xm8m7rsbt7jo
+
 cta <- read.socrata("https://data.cityofchicago.org/resource/5neh-572f.json")
-cta
 ```
 
 We decided to look at ridership for 7 stations that had projects completed between
@@ -555,7 +559,6 @@ cta2 <-
   mutate(month = format(date, "%m"), year = format(date, "%Y"))
 cta2
 
-cta2 %>% filter(stationname == "Cermak-Chinatown", date > as.Date("2006-12-01") & date < as.Date("2008-11-01")) %>% arrange(date) %>% print(n = Inf)
 ```
 
 The specific month for beginning of Addison project was unavailable, all sources 
