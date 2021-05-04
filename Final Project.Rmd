@@ -964,7 +964,6 @@ plot_4 <- ggplot() +
 
 plot_4
 
-#  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
 
 ```
 This is interesting, during the same time, the overall system saw general growth, but 
@@ -1020,16 +1019,16 @@ plot_4.3
 ```
 It would seem that ridership actually increased, but let's look at the percent differences 
 to see how this compares. 
-```{r }
+```{r}
 ggplot() +
+  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5) +
   geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), 
             color = "#c60c30") +
   geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "#c60c30") +
   geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), 
             color = "Black", group = 1) +
   geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
-  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30") + # Include average lines to help see average despite variation 
-  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black") +
   labs(title = "Cermak-Chinatown vs. System Wide Feb. 2008 to Feb. 2009",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
   xlab("Number of Months Before/After Project") + 
@@ -1119,23 +1118,24 @@ before the project. Let's look into this further.
 ```{r DanRyan vs System}
 plot_7 <- ggplot() +
   geom_line(data = DanRyan, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
-  geom_point(data = DanRyan, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
+            group = 1, color = "#c60c30") +
+  geom_point(data = DanRyan, aes(x = month, y = perc_mean, color = "#c60c30"), 
+            group = 1) +
   geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), 
             group = 1, color = "Black") +
-  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean), 
-            group = 1, color = "Black") +
+  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean,  color = "Black"), 
+            group = 1) +
   scale_y_continuous(limits = c(-25,10)) +
-  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30") +
   geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") +
   labs(title = "Change in Ridership at 95th/Dan Ryan vs. System Wide",
        subtitle = "Difference in the average number of riders for the 12 month period before March 2017 and after January 2019",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
   xlab("Number of Months Before/After Project") + 
   ylab("% Change in Mean Ridership") +
+  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
   scale_color_manual(name = "Station", 
-                    labels = c("Cermak-Chinatown (Red Line)", "System-wide"), 
+                    labels = c("95th/Dan Ryan (Red Line)", "System-wide"), 
                     values = c("#c60c30", "Black")) +
   red_line
 
@@ -1152,6 +1152,7 @@ plot_7.1 <- ggplot() +
             group = 1, color = "Red") +
   geom_point(data = DanRyan, aes(x = month, y = Dan_bef), 
             group = 1, color = "Red") +
+  geom_hline()
   geom_line(data = DanRyan, aes(x = month, y = Dan_aft), 
             group = 1, color = "Black") +
   geom_point(data = DanRyan, aes(x = month, y = Dan_aft), 
@@ -1208,6 +1209,7 @@ neighborhood of Englewood.
 
 ```{r Jarvis vs System}
 plot_1 <- ggplot() +
+  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") 
   geom_line(data = Jarvis, aes(x = month, y = perc_mean), 
             group = 1, color = "Red") +
   geom_point(data = Jarvis, aes(x = month, y = perc_mean), 
@@ -1218,7 +1220,9 @@ plot_1 <- ggplot() +
             group = 1, color = "Black") +
   scale_y_continuous(limits = c(-20,15)) +
   geom_hline(yintercept = mean(Jarvis$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black")
+  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black") + 
+
+
 
 plot_1
 ```
@@ -1234,7 +1238,9 @@ plot_6 <- ggplot() +
   geom_point(data = System_Garfield, aes(x = month, y = perc_mean), 
             group = 1, color = "Black") +
   geom_hline(yintercept = mean(Garfield$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Black") 
+  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Black") +
+  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
+  red_line
 
 plot_6
 ```
@@ -1291,18 +1297,6 @@ plot_2 <- ggplot() +
   geom_hline(yintercept = mean(System_Wilson$perc_mean), color = "Black") 
 
 plot_2
-```
-
-
-
-```{r Charts, fig.width = 30, include = F}
-
-figures <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7, ncol = 7, nrow = 1)
-
-figures
-
-# Not helpful, too much info and too messy. 
-
 ```
 
 
