@@ -32,9 +32,7 @@ library(censusapi)
 
 It is a well known fact that the City of Chicago is a city of neighborhoods. In total
 Chicago has over 77 Community Areas, that roughly correspond (although they do not fully encapsulate) 
-the many neighborhoods and communities within the city. It is also a well known fact that Chicago is a segregated city. Decades of practices such as
-redlining, restrictive housing covenants, as well as outright legalized housing discrimination
-has left the city with stark racial and ethnic boundaries that remain clear even
+the many neighborhoods and communities within the city. It is also known that Chicago is a segregated city. Decades of practices such as redlining, restrictive housing covenants, as well as outright legalized housing discrimination has left the city with stark racial and ethnic boundaries that remain clear even
 now. [Racial dot maps](http://www.radicalcartography.net/index.html?chicagodots) 
 of the city are particularly revealing of the city's continued racial and ethnic 
 homogeneity across the city, most predominately among Black Chicagoans on the South
@@ -42,21 +40,21 @@ and West Sides. Political boundaries, most notably,
 [Congressional districts](https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/United_States_Congressional_Districts_in_Illinois_%28metro_highli,ght%29%2C_2003_%E2%80%93_2013.tif/lossless-page1-400px-United_States_Congressional_Districts_in_Illinois_%28metro_highlight%29%2C_2003_%E2%80%93_2013.tif.png) take particularly unusual form in an effort to follow these tight boundaries. 
 
 Acknowledging the extent of the city's segregated state is critical, as even the 
-wishful or naive supposition that the city isn't segregated can have profound
+wishful or naive supposition that the city is not segregated can have profound
 consequences on the communities that have been historically marginalized and denied
-equal opportunities and access. While the original motivation for this research was 
-to study if there *was* a bias in the areas that the Chicago Transit Authority (CTA) 
-was making improvements to (e.g., improvements being made solely or predominately in White, wealthy, 
-well educated neighborhoods). In further research of this topic, the answer to 
-this question became clear: there is indeed bias within the areas the CTA improves, but
-these are inherent biases that are the result of the decades of institutional racism and 
+equal opportunities and access. The original motivation for this research was 
+to study if there *was* bias in determining the areas in which Chicago Transit Authority (CTA) 
+was making improvements (e.g., improvements being made solely or predominately in White, wealthy, 
+well educated neighborhoods). Through initial research of this topic, the answer to 
+that question became clear: there is indeed bias in the investments the CTA makes into 
+improvements, but these are inherent biases that are the result of the decades of institutional racism and 
 bias towards communities of color. 
 
 Consider the shape of the CTA system, sprawling with many lines radiating outward
-from the central downtown Loop. Lines radiate out in every direction 
+from the central downtown Loop. Lines disseminate in every direction 
 but East due to Lake Michigan, but despite this, of the 10 different lines or branches
 leaving the Loop, almost half of them (4) head North, while the remaining 6 lines or branches
-are equally divided heading South (3) and West (3). Looking back at a demographic 
+are equally divided heading South (3) and West (3). Looking at a demographic 
 map of the city this comes as no surprise, Chicago's densest, and Whitest areas 
 are situated to the North of the Loop, and are cut through by the Red, Brown, Purple, and in 
 more recent years, Blue (along the Milwaukee Avenue Branch) lines. Meanwhile, on the South 
@@ -145,7 +143,7 @@ that the group of improvements was a heterogeneous group with demographics compa
 city at large. The goal of this is to then compare the differences in ridership from before and after the improvement
 was made to see if there were any meaningful differences across the different groups, for example, if projects in predominantly White neighborhoods have a greater impact on ridership than those made in predominately minority neighborhoods. 
 
-To see if there were any meaninful changes in the ridership before and after the improvement was made, the CTA's publicly available [daily ridership dataset](https://data.cityofchicago.org/Transportation/CTA-Ridership-L-Station-Entries-Daily-Totals/5neh-572f) that provides the daily number of station entries for each station from 2001 to present. 
+To see if there were any meaningful changes in the ridership before and after the improvement was made, the CTA's publicly available [daily ridership dataset](https://data.cityofchicago.org/Transportation/CTA-Ridership-L-Station-Entries-Daily-Totals/5neh-572f) that provides the daily number of station entries for each station from 2001 to present. 
 
 # Data Prep and Cleaning - Census Data
 
@@ -854,7 +852,7 @@ sys_join %>%
 
 ## Demographics Tables
 
-```{r Table of Race Data}
+```{r Table of Race Data, include=TRUE}
 
 percents  %>%
   select(neighborhood, nh_white_per:othermulti_per) %>%
@@ -868,7 +866,7 @@ percents  %>%
 
 ```
 
-```{r Table of Lang Data}
+```{r Table of Lang Data, include=TRUE}
 
 percents  %>%
   select(neighborhood,  native_gd_per:primary_sp) %>%
@@ -1252,3 +1250,17 @@ figures
 
 
 # Conclusions
+Our findings show very little growth in ridership above system-wide trends
+following improvements to our seven selected stations. The increase in ridership
+at the Cermak-Chinatown station is slightly higher than system-wide trends though
+this may also by due to external factors such as recovery of ridership after the 
+truck incident that made station improvements necessary. Other increases were 
+minor and in neighborhoods where increase would be predicted based on demographics.  
+
+Ultimately these data show that more research could be done to understand ridership
+trends, particularly in neighborhoods largely comprised of people of color. As we show, 
+ridership after the 95th/Dan Ryan station project drastically decreased, with the Garfield
+station seeing a decrease in ridership trends as well, though less dramatic. Future
+projects could explore whether bus ridership from these neighborhoods increased over 
+the course of improvement projects and whether trends perhaps remained constant after 
+project completion.
