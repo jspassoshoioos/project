@@ -1026,7 +1026,6 @@ plot_4.2 <- ggplot() +
 plot_4.3 <- ggarrange(plot_4.1, plot_4.2, nrow = 1, ncol = 2)
 
 plot_4.3
-
 ```
 It would seem that ridership actually increased, but let's look at the percent differences 
 to see how this compares. 
@@ -1050,6 +1049,7 @@ ggplot() +
   red_line
 
 ```
+
 This shows us a very different story. Here we can see that while ridership growth
 was positive, beginning in April of 2008 (month 3) that positive growth declined both 
 for Cermak-Chinatown and system wide, but where the system saw a resurgence in the positive 
