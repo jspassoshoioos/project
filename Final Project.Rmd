@@ -157,7 +157,7 @@ from the text of this report for brevity.
 ```{r Census API, include=F}
 # Only run the below the first time you are setting up the API key
 #
-# Insert your actual API Key before runing if not Mia or Jake
+# Insert your actual API Key before running if not Mia or Jake
 Sys.setenv(CENSUS_KEY = "072a5932353383e73bef59d5792a0c5c93940755")
 #
 readRenviron("~/.Renviron")
@@ -494,8 +494,8 @@ all_lang
 ```
 Only thing interesting is the 6% Polish speakers in Avondale given it's higher than the city-wide average. 
 Everything else is what we would expect (high amount of Chinese spoken in Armour Square 
-since Chinatown is there) and Avondale being primarily Spanish speakers while  Englewood and Rosewood are
-almost exclusively English speakers (likely due to the fact that 98%  of the community is African American/Black).
+since Chinatown is there) and Avondale being primarily Spanish speakers while Englewood and Rosewood are
+almost exclusively English speakers (likely due to the fact that 98% of the community is African American/Black).
 Also Near North Side is predictably higher than city average for English, given that this 
 neighborhood is predominately White, upper class households. 
 
@@ -509,12 +509,12 @@ cta <- read.socrata("https://data.cityofchicago.org/resource/5neh-572f.json")
 ```
 
 We decided to look at ridership for 7 stations that had projects completed between
-2009 and 2019. We chose stations in areas all throughout the city. If I look at
-a summary of this data I can see that I have information from Jan 2001 to
+2009 and 2019. We chose stations in areas all throughout the city. If we look at
+a summary of this data we can see that we have information from Jan 2001 to
 Nov 30, 2020. This works for us as we wanted to have data for at least a year
-after a projected was completed but before the COVID pandemic affected ridership.
-Our most recent project was completed by Feb 2019 so that would give us a years 
-worth of data before the pandemic was in play in Chicago.
+after a project was completed but before the COVID pandemic affected ridership.
+Our most recent project was completed by Feb 2019 so that would give us a year 
+of data before the pandemic was in play in Chicago.
 
 ```{r check out the data}
 summary(cta)
@@ -524,13 +524,13 @@ For our data we will focus on Jarvis station for the Red North Station Interim
 Improvements project; the Wilson Station Reconstruction; Clark/Division Station
 Renovation; Addison as part of Blue Line projects; Cermak-Chinatown Station
 Renovation; Garfield Station as part of the Red Line South Station Improvements;
-and the 95th Dan Ryan Terminal Reconstruction Project. I filter the data for
-the stations I want to include and to only show weekday ride counts. This has 
+and the 95th Dan Ryan Terminal Reconstruction Project. We filter the data for
+the stations of interest and to only include weekday ride counts. This has 
 ride data by each weekday for every station. On the rail system, a customer is 
-counted as an "entry" each time he or she passes through a turnstile to enter 
+counted as an "entry" each time they passes through a turnstile to enter 
 a station.  Customers are not counted as "entries" when they make a 
-"cross-platform" transfer from one rail line to another, since they don't pass 
-through a turnstile. Where the number given for rail is in "boardings" what's 
+cross-platform transfer from one rail line to another, since they don't pass 
+through a turnstile. Where the number given for rail is in "boardings" what is
 presented is a statistically valid estimate of the actual number of boardings 
 onto the rail system.
 
@@ -547,9 +547,9 @@ cta1 <- as_tibble(
 cta1
 ```
 
-The dates are presented in year-month-day format in one column which is great for when I look at
-ranges of ridership. But I want to report station averages by month so I'm going to
-separate the date into new columns so I can filter my data.
+The dates are presented in year-month-day format in one column which is great for when we look at
+ranges of ridership. But we want to report station averages by month so we
+separate the date into new columns in order to filter.
 
 ```{r filtering for the data I want and new date columns}
 cta2 <- 
@@ -561,8 +561,8 @@ cta2
 
 ```
 
-The specific month for beginning of Addison project was unavailable, all sources 
-we could find referencing the project indicated that construction "began in Fall 2015," 
+The specific month for the beginning of the Addison project was unavailable, all sources 
+we found indicated that construction "began in Fall 2015," 
 so we chose to look at ridership between Oct 2014- Oct 2015.
 
 ```{r ridership averages by station}
@@ -647,8 +647,8 @@ DanRyan <-
 DanRyan
 ```
 
-When using cbind it will include the month rows for each data set so I will need to join the data
-sets using a join function so that they are joined by the month column.
+When using cbind it will include the month rows for each data set so we will need to join the data
+sets using a join function so they are joined by the month column.
 
 ```{r cbind}
 cta3 <- 
@@ -658,10 +658,10 @@ cta3 %>%
   kable()
 ```
 
-I am unable to join all of the data together in one pipe so I have to add one each time.
+We were unable to join all of the data together in one pipe so we added one at a time.
 ```{r joining data sets}
 join <- 
-  left_join(Cer_Chi, Clark_Div, by = "month")
+  left_join(Cer_Chi, Clark_Div, by = "month") #some join function would not run without indicating "by"
 join
 
 join1 <- 
@@ -703,7 +703,8 @@ CTA_data %>%
 ```
 
 
-To see our system wide changes
+We filtered the entire data set to only include the weekday data and to include
+additional date columns for ease of filtering later.
 ```{r system changes}
 cta_system <- 
   cta %>%
@@ -728,7 +729,9 @@ cta_system <-
 ```
 
 
-
+We looked at the system-wide changes over the same period of each project to understand
+whether any changes in ridership were a result of investment or were following city-wide
+trends in ridership.
 ```{r }
 System_Cermak <- 
   cta_system %>%
@@ -909,7 +912,7 @@ percents  %>%
 ```
 
 City of Chicago's population in 2010 was 2.6 million, and this estimates
-2.4 so we are fairly close, a tract or two along the edges may have been
+2.4 million so we are fairly close, a tract or two along the edges may have been
 excluded, but the bulk of the city's population is here in the data set.
 
 ## Line Plots of Ridership  
@@ -928,10 +931,11 @@ ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
 ```
 Cermak-Chinatown station is located in Chicago's Armour Square, which is situated just to the Southwest of 
 downtown. The presence of Chinatown in Armour Square means the area is predominantly of Asian 
-decent ()
+descent.
 
-Here we can see that there was notable growth between before the reconstruction and after, 
-but how did the system compare for the same time-period? 
+Here when looking at the period before and after reconstruction, 
+we can see that there was a notable increase in ridership after the project was
+completed. But how did the system compare for the same time-period? 
 
 ```{r Cermak vs System, include=T}
 plot_4 <- ggplot() +
@@ -968,7 +972,7 @@ of a major off ramp to the Stevenson (I-55) and Dan Ryan (I-90/I-94) Expressways
 traffic must turn either East or West onto Cermak Road, with the main station house 
 of the station located directly across Cermak road. A year prior to the project's start
 [in April of 2008](https://www.chicagotribune.com/news/ct-xpm-2008-04-26-0804251037-story.html),
-a  semitrailer truck came speeding off the exit ramp and collided into the station 
+a  semi-trailer truck came speeding off the exit ramp and collided into the station 
 house, killing two people and injuring 21. The accident left the public shaken, with 
 many faulting a lack of pedestrian shielding (i.e., bollards) as a cause for the deaths. 
 
@@ -1012,7 +1016,7 @@ This shows us a very different story. Here we can see that while ridership growt
 was positive, beginning in April of 2008 (month 3) that positive growth declined both 
 for Cermak-Chinatown and system wide, but where the system saw a resurgence in the positive 
 growth, Cermak-Chinatown stayed lower than the system-wide growth for the rest of the year, 
-with ridership only spiking to a seasonal high in January of 2009. Given the  timing of the 
+with ridership only spiking to a seasonal high in January of 2009. Given the timing of the 
 decline in positive growth, it is likely that the accident played a role in keeping ridership 
 lower in the months preceding the station project, which could suggest that the observed positive 
 growth that was previously observed could in part be inflated by the timing of the accident. 
@@ -1044,8 +1048,8 @@ figure
 
 ```
 
-Issue here is the drastically different y scales (almost a 100 fold difference), when compared
-side by side it makes it seem that the totals are similar, even though they are drastically different.
+One issue here is the drastically different y scales (almost a 100 fold difference), when compared
+side by side it makes it seem as though the totals are similar, even though they are drastically different.
 What is helpful about displaying the data this way is that it makes deviations more clear. For example
 in this graph, the drop in ridership from months 3 to 5 after the project is clearly 
 a system wide decline, although with the difference scales it is hard to gauge the difference 
@@ -1082,7 +1086,7 @@ plot_7
 ```
 It seems that over the same time period, the system also experienced a slight decline 
 in ridership of around -5%, while the 95th street terminal saw a drop in ridership of 
-nearly **-17%** Let's compare the before and after ridership numbers in total terms.
+nearly **17%** Let's compare the before and after ridership numbers in total terms.
 
 ```{r DanRyan B&A Total rides}
 plot_7.1 <- ggplot() +
@@ -1141,7 +1145,7 @@ Two other interesting cases are that of Jarvis and Garfield, two smaller station
 essentially saw no change in ridership from before and after their respective improvement 
 projects. Both stations are located along the Red line which follows a primarily 
 North-South route through most of the city. Jarvis is located in the Far North side neighborhood 
-of Rodgers Park. On the opposite side of the city, Garfield is located in the South side
+of Rodgers Park. On the opposite side of the city is Garfield, located in the South side
 neighborhood of Englewood. 
 
 ```{r Jarvis vs System}
