@@ -864,7 +864,7 @@ percents  %>%
 percents  %>%
   select(neighborhood,  native_gd_per:primary_sp) %>%
   kable(col.names = c("Area",
-                      "English Native or Very Well", "English Less than Very Well", "Primary not English", "Primary Language Spanish"), 
+                      "English Only", "Non-Native English", "Primary Not Eng", "Spanish"), 
         align = "ccc", 
         caption = "Language Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
         digits = 2, 
@@ -1152,7 +1152,7 @@ plot_7.1 <- ggplot() +
             group = 1, color = "Red") +
   geom_point(data = DanRyan, aes(x = month, y = Dan_bef), 
             group = 1, color = "Red") +
-  geom_hline()
+  geom_hline() +
   geom_line(data = DanRyan, aes(x = month, y = Dan_aft), 
             group = 1, color = "Black") +
   geom_point(data = DanRyan, aes(x = month, y = Dan_aft), 
@@ -1209,7 +1209,7 @@ neighborhood of Englewood.
 
 ```{r Jarvis vs System}
 plot_1 <- ggplot() +
-  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") 
+  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
   geom_line(data = Jarvis, aes(x = month, y = perc_mean), 
             group = 1, color = "Red") +
   geom_point(data = Jarvis, aes(x = month, y = perc_mean), 
@@ -1220,7 +1220,7 @@ plot_1 <- ggplot() +
             group = 1, color = "Black") +
   scale_y_continuous(limits = c(-20,15)) +
   geom_hline(yintercept = mean(Jarvis$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black") + 
+  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black")
 
 
 
