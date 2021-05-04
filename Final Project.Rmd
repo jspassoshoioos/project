@@ -58,18 +58,15 @@ are equally divided heading South (3) and West (3). Looking at a demographic
 map of the city this comes as no surprise, Chicago's densest, and Whitest areas 
 are situated to the North of the Loop, and are cut through by the Red, Brown, Purple, and in 
 more recent years, Blue (along the Milwaukee Avenue Branch) lines. Meanwhile, on the South 
-and West sides, the lines take on much different shapes, with two lines, the Red (Dan-Ryan Branch) and  Blue line (Forest Park Branch), 
-being constructed in the medians of the interstate highways that were constructed during the post-war housing
-boom. As many White households moved out of city areas in favor of suburban living, a phenomenon often refer to
-as "White flight," the investment and focus on creating reliable transportation infrastructure followed them to the suburbs. 
+and West sides, the lines take on much different shapes, with two lines, the Red (Dan-Ryan Branch) and Blue line (Forest Park Branch), being constructed in the medians of the interstate highways that were constructed during the post-war housing boom. As many White households moved out of city areas in favor of suburban living, a phenomenon often refer to as "White flight," the investment and focus on creating reliable transportation infrastructure followed them to the suburbs. 
 
 Thus it became clear that if our research was seeking to determine if there is in fact
-a bias in the areas served by and thusly the recipient of transportation improvement projects, that
+a bias in the areas served by and thus the recipient of transportation improvement projects, that
 the answer would be a **resounding yes.** While there is certainly still disagreement within the
 subject as to *why* these inequities and biases exist and persist, the fact remains that these inequities and 
 biases **do** exist. Rather than seek to add to the existing explanations for these inequities, this research
 seeks to observe them, to try and quantify it so as to better understand them so that they 
-can be more readily addressed and the historical wrongs to minority communities can be righted. 
+can be more readily addressed and the historical wrongs to minority communities can be made right. 
 
 ## Research Questions 
 
@@ -88,7 +85,7 @@ The new question that emerges is:
 * If we accept that the system is inherently bias against minority communities, what 
 effect would we expect these projects to have on ridership within these communities? 
  + In a system that was made to serve primarily White, middle to upper class, and highly educated areas, 
- we would expect improvements to cluster in these communities and are likely to result in a greater
+ we would expect improvements to cluster in these communities and to result in a greater
  benefit (reflected through greater gains in ridership) than similar improvements made
  within communities that have been historically underserved by the CTA.  
  + If the improvements in these underserved communities are viewed within a "performative" 
@@ -96,7 +93,9 @@ effect would we expect these projects to have on ridership within these communit
  to create the appearance of equity, while not actually improving ridership), then we
  would expect improvements in these communities to have a less notable impact on 
  ridership.
- 
+
+## Data Plan
+
 In order to address this question there are two key sets of data we need to analyze: 
 
 * Demographics of neighborhoods where CTA system improvements have been made.
@@ -112,9 +111,7 @@ aligning with the community area boundaries.
 **An important note** regarding ACS estimate values: The ACS estimates utilized for 
 the purposes of this research are the **5-year estimates.** This means that the estimated
 values used in this project are the ACS estimates for a given census tract for the 5 year-period spanning
-from 2005 to 2010. This decision was driven  Although these estimates will be frequently referred to as the **2010 estimates**
-or **2010 5 year estimates** the estimate values are reflective of the estimated value for the entire 5 year period 
-(i.e., 2005 to 2010) not simply the 2010 calendar year.
+from 2005 to 2010. This decision was driven  Although these estimates will be frequently referred to as the **2010 estimates** or **2010 5 year estimates** the estimate values are reflective of the estimated value for the entire 5 year period (i.e., 2005 to 2010) not simply the 2010 calendar year.
 
 Another **important note** regarding the Census tracts used for this analysis. Census data
 is grouped using the former Federal Information Processing Standards (FIPS) codes, which
@@ -129,19 +126,16 @@ listings of census tracts are provided at the *county* level, and even then the 
 instance that we could find a full listing of census tracts in Cook County from a 
 U.S. government department or agency, was from the [Department of Justice (DOJ)](https://www.justice.gov/crt/designated-census-tracts-chicago-il-pmsa-county). 
 For the purposes of this analysis, the specific census tracts in the city of Chicago 
-were determined from [this map](https://www.csu.edu/cerc/documents/ChicagoCommunityAreasMapWithCensusTracts2000-NIPC.pdf)
-published by the Northeastern Illinois Planning Commission. 
+were determined from [this map](https://www.csu.edu/cerc/documents/ChicagoCommunityAreasMapWithCensusTracts2000-NIPC.pdf) published by the Northeastern Illinois Planning Commission. 
 
 What quickly became apparent was there was some data missing. The 2010 census found 
 a total population for the city of Chicago to be approximately 2.6 million, while 
-our the aggregate of our census data indicates a population estimate of approximatley 2.4 
+our the aggregate of our census data indicates a population estimate of approximately 2.4 
 million. 
 
-To identify the specific improvement projects of interest, the [CTAs list](https://www.transitchicago.com/newsprojects/system-improvement-projects/completed-station-projects) of past projects
-was reviewed. From this list a deliberate sample was selected with the intent to ensure 
+To identify the specific improvement projects of interest, the [CTAs list](https://www.transitchicago.com/newsprojects/system-improvement-projects/completed-station-projects) of past projects was reviewed. From this list a deliberate sample was selected with the intent to ensure 
 that the group of improvements was a heterogeneous group with demographics comparable to the 
-city at large. The goal of this is to then compare the differences in ridership from before and after the improvement
-was made to see if there were any meaningful differences across the different groups, for example, if projects in predominantly White neighborhoods have a greater impact on ridership than those made in predominately minority neighborhoods. 
+city at large. The goal of this is to then compare the differences in ridership from before and after the improvement was made to see if there were any meaningful differences across the different groups, for example, if projects in predominantly White neighborhoods have a greater impact on ridership than those made in predominately minority neighborhoods. 
 
 To see if there were any meaningful changes in the ridership before and after the improvement was made, the CTA's publicly available [daily ridership dataset](https://data.cityofchicago.org/Transportation/CTA-Ridership-L-Station-Entries-Daily-Totals/5neh-572f) that provides the daily number of station entries for each station from 2001 to present. 
 
@@ -272,9 +266,8 @@ various neighborhoods. Each of these areas are comprised of many
 individual census tracts. As previously noted, for our analysis, we used a map 
 published by the Northeastern Illinois Planning Commission, with each community 
 area and the census tracts that comprise that community. After identifying each of the
-community areas for each improvement project, we then used the
-identified census tracts to calculate the approximate populations of
-each community.
+community areas related to our improvement projects, we then used the identified census 
+tracts to calculate the approximate populations of each community.
 
 Given the lack of clarity regarding the census tracts contained within Chicago, 
 as well as the unusual tracts found along the city's edges, we suspect that 
