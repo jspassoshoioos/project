@@ -7,14 +7,14 @@ urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
+knitr::opts_chunk$set(echo = F, message = F, warning = F, include = F)
 ```
 
 # Motivation and Research Questions
 
 ## Needed Packages
 
-```{r libraries for apis, echo=FALSE}
+```{r libraries for apis}
 #install.packages(c("httr", "jsonlite", "RSocrata"))
 library(httr)
 library(jsonlite)
@@ -154,7 +154,7 @@ personal API key. The code chunk titled "API Key" contains an empty
 string for you to insert your own API key. This chunk has been excluded
 from the text of this report for brevity.
 
-```{r Census API, include=F}
+```{r Census API}
 # Only run the below the first time you are setting up the API key
 #
 # Insert your actual API Key before running if not Mia or Jake
@@ -501,7 +501,7 @@ neighborhood is predominately White, upper class households.
 
 # Data Prep and Cleaning - CTA Data
 
-```{r, echo=FALSE, include=FALSE}
+```{r}
 #API key ID: 7vwfj55tah2za8t0hmgcwkc2w
 #API key secret: 4vxjm7n1v7ddid1vhlx4hvn3v0k9dnagm8hc76xm8m7rsbt7jo
 
@@ -732,7 +732,7 @@ cta_system <-
 We looked at the system-wide changes over the same period of each project to understand
 whether any changes in ridership were a result of investment or were following city-wide
 trends in ridership.
-```{r }
+```{r}
 System_Cermak <- 
   cta_system %>%
   group_by(month, day) %>%
@@ -851,7 +851,7 @@ sys_join %>%
 
 ## Demographics Tables
 
-```{r Table of Race Data, echo=T, include=T}
+```{r Table of Race Data}
 
 percents  %>%
   select(neighborhood, nh_white_per:othermulti_per) %>%
@@ -865,7 +865,7 @@ percents  %>%
 
 ```
 
-```{r Table of Lang Data, echo=T, include=T}
+```{r Table of Lang Data}
 
 percents  %>%
   select(neighborhood,  native_gd_per:primary_sp) %>%
@@ -879,7 +879,7 @@ percents  %>%
 
 ```
 
-```{r Table of Edu Data, echo=T, include=T}
+```{r Table of Edu Data, include=T}
 
 percents  %>%
   select(neighborhood, no_hs_per:uni_per) %>%
@@ -894,7 +894,7 @@ percents  %>%
 ```
 
 
-```{r Table of Income, echo=T, include=T}
+```{r Table of Income, include=T}
 
 percents  %>%
   select(neighborhood, mean_median_income) %>%
@@ -1237,7 +1237,7 @@ plot_2
 
 
 
-```{r Charts, fig.width = 30, eval = F, include = F}
+```{r Charts, fig.width = 30, include = F}
 
 figures <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7, ncol = 7, nrow = 1)
 
