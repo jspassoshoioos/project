@@ -31,62 +31,66 @@ Acknowledging the extent of the city's segregated state is critical, as even the
 wishful or naive supposition that the city isn't segregated can have profound
 consequences on the communities that have been historically marginalized and denied
 equal opportunities and access. While the original motivation for this research was 
-to study if there was a bias in the areas that the Chicago Transit Authority (CTA) 
-was making improvements to the system (e.g., were improvements being made solely or predominately in White, wealthy, 
+to study if there *was* a bias in the areas that the Chicago Transit Authority (CTA) 
+was making improvements to (e.g., improvements being made solely or predominately in White, wealthy, 
 well educated neighborhoods). In further research of this topic, the answer to 
-this question became clear: there in indeed within the areas served by the CTA, but
-these are inherent biases that are the result of the years of institutional racism and 
+this question became clear: there is indeed bias within the areas the CTA improves, but
+these are inherent biases that are the result of the decades of institutional racism and 
 bias towards communities of color. 
 
-Consider the shape of the CTA system. It is a large radial systems with many lines 
-radiating outward from the central downtown Loop. Lines radiate out in every direction 
+Consider the shape of the CTA system, sprawling with many lines radiating outward
+from the central downtown Loop. Lines radiate out in every direction 
 but East due to Lake Michigan, but despite this, of the 10 different lines or branches
-leaving the Loop, almost half of them (4) head North, while the remaining 6 lines
+leaving the Loop, almost half of them (4) head North, while the remaining 6 lines or branches
 are equally divided heading South (3) and West (3). Looking back at a demographic 
 map of the city this comes as no surprise, Chicago's densest, and Whitest areas 
-are situated to the North of the Loop, that are traced by the Red, Brown, Purple, and in 
+are situated to the North of the Loop, and are cut through by the Red, Brown, Purple, and in 
 more recent years, Blue (along the Milwaukee Avenue Branch) lines. Meanwhile, on the South 
 and West sides, the lines take on much different shapes, with two lines, the Red (Dan-Ryan Branch) and  Blue line (Forest Park Branch), 
 being constructed in the medians of the interstate highways that were constructed during the post-war housing
 boom. As many White households moved out of city areas in favor of suburban living, a phenomenon often refer to
-as "White flight," the investment and focus on creating reliable transportation infrastructure left with them. 
+as "White flight," the investment and focus on creating reliable transportation infrastructure followed them to the suburbs. 
 
-Thus it became clear to us that if our research was merely seeking to see if there is in fact
-a bias in the areas served by and the recipient of transportation improvement projects, that
-our answer would be a **resounding yes.** While there is certainly still disagreement within the
-subject as to *why* these inequities and biases exist, the fact remains that these inequities and 
-biases exist in the first place. This research does not seek to find an answer or explanation for 
-these inequities, but instead seeks to study them, to better understand them so that they 
+Thus it became clear that if our research was seeking to determine if there is in fact
+a bias in the areas served by and thusly the recipient of transportation improvement projects, that
+the answer would be a **resounding yes.** While there is certainly still disagreement within the
+subject as to *why* these inequities and biases exist and persist, the fact remains that these inequities and 
+biases **do** exist. Rather than seek to add to the existing explanations for these inequities, this research
+seeks to observe them, to try and quantify it so as to better understand them so that they 
 can be more readily addressed and the historical wrongs to minority communities can be righted. 
 
 # Research Question 
 
-With the attention now turned towards better understanding the known inequities that
-exist within the system, rather than answering the more existential question of whether
-there is in fact an implicit bias to the system, the scope of our research comes 
-more easily into view. If we accept the system as being the product of systems that 
-were designed to benefit White communities at the expense of communities of color, 
-then it is no surprise that improvements to the very same system will be similarly 
-bias towards these communities. 
+With the focus now turned towards observing the known inequities that exist within
+the CTA, the scope of this research comes more easily into view. If it is accepted
+that the CTA has inherent bias in its design and the communities it sought to serve,  
+that is to serve White communities on the North side at the expense of service to
+communities of color on the West and South sides, then it is no surprise that 
+improvements made to the very same system will reflect a bias towards a specific 
+demographic. Because Chicago continues to be such a highly segregated city, the 
+greater frequency of improvement projects in these specific communities, where the most
+heavily trafficked parts of the system are located, becomes understandable. 
 
-The new question that emerges is this: 
+The new question that emerges is: 
 
-* If we accept that the system is inherently bias against communities of color, what 
-effect would we expect these projects to have on ridership within these communities of color? 
- + We would expect that improvements made to Whiter, Richer, and more Educated areas would
- have a greater affect on ridership in these communities, while improvements made in communities 
- of color would less likely to see an increase in ridership. 
- + This would be especially if the improvements were viewed as being "perfomative" (i.e., simply 
- to create the appearance that others are concerned with the issue rather than actually being concerned 
- with the outcome.)
- 
+* If we accept that the system is inherently bias against minority communities, what 
+effect would we expect these projects to have on ridership within these communities? 
+ + In a system that was made to serve primarily White, middle to upper class, and highly educated areas, 
+ we would expect improvements to cluster in these communities and are likely to result in a greater
+ benefit (reflected through greater gains in ridership) than similar improvements made
+ within communities that have been historically underserved by the CTA.  
+ + If the improvements in these underserved communities are viewed within a "performative" 
+ framework (i.e., improvements are made to these communities as a form of lip service, 
+ to create the appearance of equity, while not actually improving ridership), then we
+ would expect improvements in these communities to have a less notable impact on 
+ ridership.
  
 In order to address this question there are two key sets of data we need to analyze: 
 
 * Demographics of neighborhoods where CTA system improvements have been made.
 * Ridership statistics for these areas (stations) before and after the improvements were made. 
 
-To study the demographic data of the areas subject to CTA improvements, we will 
+To study the demographic data of the areas subject to CTA improvements, we  
 utilize data made available by the [American Community Survey (ACS)](https://www.census.gov/programs-surveys/acs/about.html), a demography 
 study program conducted by the U.S. Census Bureau. Conveniently, Chicago's 77 community 
 areas correspond to the census tract group areas used by the Census, such that tract
@@ -96,9 +100,31 @@ aligning with the community area boundaries.
 **An important note** regarding ACS estimate values: The ACS estimates utilized for 
 the purposes of this research are the **5-year estimates.** This means that the estimated
 values used in this project are the ACS estimates for a given census tract for the 5 year-period spanning
-from 2005 to 2010. Although these estimates will be frequently referred to as the **2010 estimates**
+from 2005 to 2010. This decision was driven  Although these estimates will be frequently referred to as the **2010 estimates**
 or **2010 5 year estimates** the estimate values are reflective of the estimated value for the entire 5 year period 
-(i.e., 2005 to 2010) not simply the year 2010.
+(i.e., 2005 to 2010) not simply the 2010 calendar year.
+
+Another **important note** regarding the Census tracts used for this analysis. Census data
+is grouped using the former Federal Information Processing Standards (FIPS) codes, which
+uniquely identifies each county or county equivalent within the United States, as
+well as certain possessions and freely associated states. Accordingly, the smallest 
+political unit captured by the U.S. Census is the **county** rather than the individual
+**municipalities** (such as the City of Chicago) that make up counties. 
+
+A consequence of this is that it is *extremely difficult* to identify the specific 
+census tracts that are contained within a given municipality, as the only centralized
+listings of census tracts are provided at the *county* level, and even then the only 
+instance that we could find a full listing of census tracts in Cook County from a 
+U.S. government department or agency, was from the [Department of Justice (DOJ)](https://www.justice.gov/crt/designated-census-tracts-chicago-il-pmsa-county). 
+For the purposes of this analysis, the specific census tracts in the city of Chicago 
+were determined from [this map](https://www.csu.edu/cerc/documents/ChicagoCommunityAreasMapWithCensusTracts2000-NIPC.pdf)
+published by the Northeastern Illinois Planning Commission. 
+
+What quickly became apparent was there was some data missing. The 2010 census found 
+a total population for the city of Chicago to be approximately 2.6 million, while 
+our the aggregate of our census data indicates a population estimate of approximatley 2.4 
+million. 
+
 
 To identify the specific improvement projects of interest, the [CTAs list](https://www.transitchicago.com/newsprojects/system-improvement-projects/completed-station-projects) of past projects
 was reviewed. From this list a deliberate sample was selected with the intent to ensure 
@@ -243,12 +269,17 @@ Public census data is available at various jurisdiction levels, from
 multi-state regions down to individual block groups. For our project,
 our interest was on Chicago community areas, which approximate Chicago's
 various neighborhoods. Each of these areas are comprised of many
-individual census tracts. For our analysis, we used maps published by
-the City of Chicago identifying each community area and the census
-tracts that comprise that community. After identifying each of the
+individual census tracts. As previously noted, for our analysis, we used a map 
+published by the Northeastern Illinois Planning Commission, with each community 
+area and the census tracts that comprise that community. After identifying each of the
 community areas for each improvement project, we then used the
 identified census tracts to calculate the approximate populations of
 each community.
+
+Given the lack of clarity regarding the census tracts contained within Chicago, 
+as well as the unusual tracts found along the city's edges, we suspect that 
+the approximately 200,000 individuals that are seemingly missing from our data are
+residents of these unusual tract areas. 
 
 ```{r Cleaning Data}
 
@@ -351,10 +382,6 @@ cta_inc <- chicago_2010 %>%
   select(median_income) %>% 
   summarise(mean_median_income = mean(median_income))
 
-#chicago_2010 %>% 
-#  select(everything(), -tract, -median_income) %>% 
-#  group_by(neighborhood) %>% 
-#  summarise(across(everything()), mean)
 
 city_per <- chicago_2010 %>% 
   select(everything(), -tract, -median_income) %>% 
@@ -462,15 +489,361 @@ all_lang <- rbind(lang, city_lang)
 
 all_lang
 
-# Only thing interesting is the 6% in Avondale given it's higher than the city-wide average
-# Everything else is what we would expect (high amount of Chinese spoken in Armour Square 
-# since Chinatown is there) and Avondale being primary Spanish, and Englewood and Rosewood being
-# almost entirely English (since it's 98% AA). Also Near North Side is predictably higher 
-# than city average for English. 
+```
+Only thing interesting is the 6% Polish speakers in Avondale given it's higher than the city-wide average. 
+Everything else is what we would expect (high amount of Chinese spoken in Armour Square 
+since Chinatown is there) and Avondale being primarily Spanish speakers while  Englewood and Rosewood are
+almost exclusively English speakers (likely due to the fact that 98%  of the community is African American/Black).
+Also Near North Side is predictably higher than city average for English, given that this 
+neighborhood is predominately White, upper class households. 
+
+# Data Prep and Cleaning - CTA Data
+
+```{r, echo=FALSE}
+cta <- read.socrata("https://data.cityofchicago.org/resource/5neh-572f.json")
+cta
+```
+
+We decided to look at ridership for 7 stations that had projects completed between
+2009 and 2019. We chose stations in areas all throughout the city. If I look at
+a summary of this data I can see that I have information from Jan 2001 to
+Nov 30, 2020. This works for us as we wanted to have data for at least a year
+after a projected was completed but before the COVID pandemic affected ridership.
+Our most recent project was completed by Feb 2019 so that would give us a years 
+worth of data before the pandemic was in play in Chicago.
+
+```{r check out the data}
+summary(cta)
+```
+
+For our data we will focus on Jarvis station for the Red North Station Interim
+Improvements project; the Wilson Station Reconstruction; Clark/Division Station
+Renovation; Addison as part of Blue Line projects; Cermak-Chinatown Station
+Renovation; Garfield Station as part of the Red Line South Station Improvements;
+and the 95th Dan Ryan Terminal Reconstruction Project. I filter the data for
+the stations I want to include and to only show weekday ride counts. This has 
+ride data by each weekday for every station. On the rail system, a customer is 
+counted as an "entry" each time he or she passes through a turnstile to enter 
+a station.  Customers are not counted as "entries" when they make a 
+"cross-platform" transfer from one rail line to another, since they don't pass 
+through a turnstile. Where the number given for rail is in "boardings" what's 
+presented is a statistically valid estimate of the actual number of boardings 
+onto the rail system.
+
+```{r filter for our stations and by weekday rides}
+cta1 <- as_tibble(
+  cta %>%
+  group_by(station_id) %>%
+  filter(station_id %in% c("41190", "40540", "40630", "41240",
+                            "41000", "41170", "40450"),
+         daytype == "W") %>% #W is the weekday ridership information
+  mutate(date = as.Date(date),
+         rides = as.numeric(rides))
+)
+cta1
+```
+
+The dates are presented in year-month-day format in one column which is great for when I look at
+ranges of ridership. But I want to report station averages by month so I'm going to
+separate the date into new columns so I can filter my data.
+
+```{r filtering for the data I want and new date columns}
+cta2 <- 
+  cta1 %>%
+  group_by(stationname, date, rides) %>%
+  filter(date >= as.Date("2007-10-01") & date <= as.Date("2020-01-31")) %>%
+  mutate(month = format(date, "%m"), year = format(date, "%Y"))
+cta2
+
+cta2 %>% filter(stationname == "Cermak-Chinatown", date > as.Date("2006-12-01") & date < as.Date("2008-11-01")) %>% arrange(date) %>% print(n = Inf)
+```
+
+The specific month for beginning of Addison project was unavailable, all sources 
+we could find referencing the project indicated that construction "began in Fall 2015," 
+so we chose to look at ridership between Oct 2014- Oct 2015.
+
+```{r ridership averages by station}
+Cer_Chi <- 
+  cta2 %>%
+  filter(stationname == "Cermak-Chinatown") %>%
+  group_by(month) %>%
+  summarise(Cer_Chi_bef = mean(rides[date > as.Date("2008-10-31") & date < as.Date("2009-11-01")]),
+            Cer_Chi_aft = mean(rides[date > as.Date("2011-03-31") & date < as.Date("2012-04-01")])) %>% 
+  mutate(diff_mean = Cer_Chi_aft - Cer_Chi_bef,
+         perc_mean = ((Cer_Chi_aft - Cer_Chi_bef)/ Cer_Chi_bef)*100)
+Cer_Chi
+
+Cer_Chi2 <- 
+  cta2 %>%
+  filter(stationname == "Cermak-Chinatown") %>%
+  group_by(month) %>%
+  summarise(Cer_Chi_bef = mean(rides[date > as.Date("2008-01-31") & date < as.Date("2009-02-01")]),
+            Cer_Chi_aft = mean(rides[date > as.Date("2011-04-30") & date < as.Date("2012-05-01")])) %>% 
+  mutate(diff_mean = Cer_Chi_aft - Cer_Chi_bef,
+         perc_mean = ((Cer_Chi_aft - Cer_Chi_bef)/ Cer_Chi_bef)*100)
+Cer_Chi2
+
+Clark_Div <- 
+  cta2 %>%
+  filter(stationname == "Clark/Division") %>%
+  group_by(month) %>%
+  summarise(Clark_Div_bef = mean(rides[date > as.Date("2011-09-01") & date < as.Date("2012-09-01")]),
+            Clark_Div_aft = mean(rides[date > as.Date("2015-09-30") & date < as.Date("2016-10-01")])) %>% 
+  mutate(diff_mean = Clark_Div_aft - Clark_Div_bef,
+         perc_mean = ((Clark_Div_aft - Clark_Div_bef)/ Clark_Div_bef)*100)
+Clark_Div
+
+Jarvis <- 
+  cta2 %>%
+  filter(stationname == "Jarvis") %>%
+  group_by(month) %>%
+  summarise(Jarvis_bef = mean(rides[date > as.Date("2011-11-01") & date < as.Date("2012-11-01")]),
+            Jarvis_aft = mean(rides[date > as.Date("2012-12-31") & date < as.Date("2014-01-01")])) %>% 
+  mutate(diff_mean = Jarvis_aft - Jarvis_bef,
+         perc_mean = ((Jarvis_aft - Jarvis_bef)/ Jarvis_bef)*100)
+Jarvis
+
+Garfield <- 
+  cta2 %>%
+  filter(stationname == "Garfield-Dan Ryan") %>%
+  group_by(month) %>%
+  summarise(Garf_bef = mean(rides[date > as.Date("2012-05-01") & date < as.Date("2013-05-01")]),
+            Garf_aft = mean(rides[date > as.Date("2013-10-31") & date < as.Date("2014-11-01")])) %>%
+  mutate(diff_mean = Garf_aft - Garf_bef,
+         perc_mean = ((Garf_aft - Garf_bef)/ Garf_bef)*100)
+Garfield
+
+Wilson <- 
+  cta2 %>%
+  filter(stationname == "Wilson") %>%
+  group_by(month) %>%
+  summarise(Wilson_bef = mean(rides[date > as.Date("2013-09-30") & date < as.Date("2014-10-01")]),
+            Wilson_aft = mean(rides[date > as.Date("2017-10-03") & date < as.Date("2018-10-04")]))%>%
+  mutate(diff_mean = Wilson_aft - Wilson_bef,
+         perc_mean = ((Wilson_aft - Wilson_bef)/ Wilson_bef)*100)
+Wilson
+
+Addison <- 
+  cta2 %>%
+  filter(stationname == "Addison-O'Hare") %>%
+  group_by(month) %>%
+  summarise(Addison_bef = mean(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
+            Addison_aft = mean(rides[date > as.Date("2016-11-30") & date < as.Date("2017-12-01")])) %>%
+  mutate(diff_mean = Addison_aft - Addison_bef,
+         perc_mean = ((Addison_aft - Addison_bef)/ Addison_bef)*100)
+Addison
+
+DanRyan <- 
+  cta2 %>%
+  filter(stationname == "95th/Dan Ryan") %>%
+  group_by(month) %>%
+  summarise(Dan_bef = mean(rides[date > as.Date("2016-02-29") & date < as.Date("2017-03-01")]),
+            Dan_aft = mean(rides[date > as.Date("2019-01-31") & date < as.Date("2020-02-01")])) %>%
+  mutate(diff_mean = Dan_aft - Dan_bef,
+         perc_mean = ((Dan_aft - Dan_bef)/ Dan_bef)*100)
+DanRyan
+```
+
+When using cbind it will include the month rows for each data set so I will need to join the data
+sets using a join function so that they are joined by the month column.
+
+```{r cbind}
+cta3 <- 
+  cbind(Cer_Chi, Clark_Div, Jarvis, Garfield, Wilson, Addison, DanRyan)
+
+cta3 %>%
+  kable()
+```
+
+I am unable to join all of the data together in one pipe so I have to add one each time.
+```{r joining data sets}
+join <- 
+  left_join(Cer_Chi, Clark_Div, by = "month")
+join
+
+join1 <- 
+  left_join(join, Jarvis)
+join1
+
+join2 <- 
+  left_join(join1, Garfield, by = "month")
+join2
+
+join3 <- 
+  left_join(join2, Wilson)
+join3
+
+join4 <- 
+  left_join(join3, Addison, by = "month")
+join4
+
+CTA_data <- 
+  left_join(join4, DanRyan)
+CTA_data
+```
+
+```{r}
+CTA_data %>%
+  kable(col.names = c("Month", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", 
+                      "Diff Mean", "Perc Mean", 
+                     "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before",  "After",
+                     "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean"),
+        align = c("ccccccccccccccccccccccccccccc"),
+        digits = c(0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2),
+        caption = "Average Daily Ridership for a Given Month Before and After CTA Project Completion") %>%
+  
+  kable_classic(font_size = 16,
+                 html_font = "Times New Roman",
+                 full_width = F) %>%
+  add_header_above(c("", "Cer-Chinatown" = 4, "Clark/Division" = 4, "Jarvis" = 4,
+                     "Garfield" = 4, "Wilson" = 4, "Addison" = 4, "95th/Dan Ryan" = 4))
+```
+
+
+To see our system wide changes
+```{r system changes}
+cta_system <- 
+  cta %>%
+  filter(daytype == "W") %>%
+  mutate(date = as.Date(date),
+         rides = as.numeric(rides),
+         month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d"))
+```
+
+
+```{r}
+#cta %>%
+  #filter(daytype == "W",
+         #date <= as.Date("2013-12-31") & date >= as.Date("2012-12-01")) %>%
+  #mutate(rides = as.numeric(rides)) %>% 
+  #mutate(month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d")) %>%
+  #group_by(month, day) %>%
+  #summarise(monthday_tot = sum(rides)) %>% 
+  #group_by(month) %>% 
+  #summarise(mean = mean(monthday_tot))
 
 ```
 
-# Demographics Charts
+
+
+```{r }
+System_Cermak <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Cermak = sum(rides[date > as.Date("2008-10-31") & date < as.Date("2009-11-01")]),
+            Mon_aft_Cermak = sum(rides[date > as.Date("2011-03-31") & date < as.Date("2012-04-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Cermak),
+            after_mean = mean(Mon_aft_Cermak)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Cermak
+
+System_Cermak2 <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Cermak = sum(rides[date > as.Date("2008-01-31") & date < as.Date("2009-02-01")]),
+            Mon_aft_Cermak = sum(rides[date > as.Date("2011-03-31") & date < as.Date("2012-04-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Cermak),
+            after_mean = mean(Mon_aft_Cermak)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Cermak2
+
+
+System_Clark_Division <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Clark_Division = sum(rides[date > as.Date("2011-08-31") & date < as.Date("2012-09-01")]),
+            Mon_aft_Clark_Division = sum(rides[date > as.Date("2015-08-31") & date < as.Date("2016-09-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Clark_Division),
+            after_mean = mean(Mon_aft_Clark_Division)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Clark_Division
+
+System_Jarvis <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Jarvis = sum(rides[date > as.Date("2011-10-31") & date < as.Date("2012-11-01")]),
+            Mon_aft_Jarvis = sum(rides[date > as.Date("2012-11-30") & date < as.Date("2013-12-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Jarvis),
+            after_mean = mean(Mon_aft_Jarvis)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Jarvis
+
+System_Garfield <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Garf = sum(rides[date > as.Date("2012-05-01") & date < as.Date("2013-05-01")]),
+            Mon_aft_Garf = sum(rides[date > as.Date("2013-10-31") & date < as.Date("2014-11-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Garf),
+            after_mean = mean(Mon_aft_Garf)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Garfield
+
+System_Wilson <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Wilson = sum(rides[date > as.Date("2013-09-30") & date < as.Date("2014-10-01")]),
+            Mon_aft_Wilson = sum(rides[date > as.Date("2017-09-30") & date < as.Date("2018-10-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Wilson),
+            after_mean = mean(Mon_aft_Wilson)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_Wilson
+
+System_Addison <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Addison = sum(rides[date > as.Date("2014-09-30") & date < as.Date("2015-10-01")]),
+            Mon_aft_Addison = sum(rides[date > as.Date("2016-11-30") & date < as.Date("2017-12-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Addison),
+            after_mean = mean(Mon_aft_Addison)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)  
+System_Addison
+
+System_DanRyan <- 
+  cta_system %>%
+  group_by(month, day) %>%
+  summarise(Mon_bef_Dan = sum(rides[date > as.Date("2016-02-29") & date < as.Date("2017-03-01")]),
+            Mon_aft_Dan = sum(rides[date > as.Date("2019-01-31") & date < as.Date("2020-02-01")])) %>%
+  group_by(month) %>%
+  summarise(before_mean = mean(Mon_bef_Dan),
+            after_mean = mean(Mon_aft_Dan)) %>%
+  mutate(diff_mean = after_mean - before_mean,
+         perc_mean = ((after_mean - before_mean)/ before_mean)*100)
+System_DanRyan
+```
+
+```{r join system data}
+sys_join <- 
+rbind(System_Cermak, System_Clark_Division, System_Jarvis, System_Garfield, System_Wilson, System_Addison, System_DanRyan)
+sys_join
+```
+
+```{r table the thing}
+sys_join %>%
+  kable() %>%
+  kable_classic(font_size = 16,
+                 html_font = "Times New Roman",
+                 full_width = F) %>%
+  pack_rows(index = c("Cermak-Chinatown" = 12, "Clark/Division" = 12, "Jarvis" = 12, 
+                      "Garfield" = 12, "Wilson" = 12, "Addison" = 12, "95th/Dan Ryan" = 12))
+```
+
+# Results and Discussion
+
+## Demographics Tables
 
 ```{r Table of Race Data, echo=T, include=T}
 
@@ -536,12 +909,336 @@ City of Chicago's population in 2010 was 2.6 million, and this estimates
 2.4 so we are fairly close, a tract or two along the edges may have been
 excluded, but the bulk of the city's population is here in the data set.
 
-```{r Checking Data}
+## Line Plots of Ridership  
 
+Now that we have the data, we will begin with some basic plots of the percent 
+difference in means to see overall ridership changes. 
+
+```{r, include=T}
+# First, Cermak-Chinatown
+
+ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
+  geom_point(color = "Red") +
+  geom_line(group = 1, color = "Red") +
+  scale_y_continuous(limits = c(0, 30)) + 
+  geom_hline(yintercept = 0)
+```
+Cermak-Chinatown station is located in Chicago's Armour Square, which is situated just to the Southwest of 
+downtown. The presence of Chinatown in Armour Square means the area is predominantly of Asian 
+decent ()
+
+Here we can see that there was notable growth between before the reconstruction and after, 
+but how did the system compare for the same time-period? 
+
+```{r Cermak vs System, include=T}
+plot_4 <- ggplot() +
+  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), 
+            color = "Red") +
+  geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), color = "Red") +
+  geom_line(data = System_Cermak, aes(x = month, y = perc_mean), 
+            color = "Black", group = 1) +
+  geom_point(data = System_Cermak, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
+  scale_y_continuous(limits = c(0, 30)) +
+  geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "Red") + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black")
+
+plot_4
 
 
 ```
+This is interesting, during the same time, the overall system saw general growth, but 
+at a lower rate, which means some of this increase is accounted for by overall system
+usage growth, but there is still a sizable difference in the two, suggesting that 
+the station improvement did increase ridership at the station. 
 
-```{r Further Checking}
+While this seemingly contradicts the hypothesis that improvements to historically underserved 
+communities would see a weaker impact on ridership, there is some important historical 
+context to be considered with this case. First, while the neighborhood surrounding 
+the Cermak-Chinatown stop is predominantly Asian and Pacific Islander (47% compared to the city's 
+total of 5%), and the most commonly spoken language being Chinese (43% compared to the city's total 
+of 1%), the presence of Chinatown in this area does make it a significant tourist destination 
+for both out of town and local visitors. Another important factor to consider is the 
+context that brought about the station project. 
+
+The Cermak-Chinatown station is [located](https://goo.gl/maps/jQ6pe7nEz2xcw8F79) just North
+of a major off ramp to the Stevenson (I-55) and Dan Ryan (I-90/I-94) Expressways where 
+traffic must turn either East or West onto Cermak Road, with the main station house 
+of the station located directly across Cermak road. A year prior to the project's start
+[in April of 2008](https://www.chicagotribune.com/news/ct-xpm-2008-04-26-0804251037-story.html),
+a  semitrailer truck came speeding off the exit ramp and collided into the station 
+house, killing two people and injuring 21. The accident left the public shaken, with 
+many faulting a lack of pedestrian shielding (i.e., bollards) as a cause for the deaths. 
+
+If we shift the 12 month period from November 2008 to November 2009 to include the months leading up to
+and after the accident (i.e., February 2008 to February 2009): 
+
+```{r 2008 down trend, include=T}
+
+plot_4.1 <- ggplot() +
+  geom_line(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), 
+            color = "Red") +
+  geom_point(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), color = "Red") +
+   geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "Red") 
+
+plot_4.2 <- ggplot() +   
+  geom_line(data = System_Cermak2, aes(x = month, y = before_mean), 
+            color = "Black", group = 1) +
+  geom_point(data = System_Cermak2, aes(x = month, y = before_mean, group = 1), color = "Black") +
+  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black") 
+
+plot_4.3 <- ggarrange(plot_4.1, plot_4.2, nrow = 1, ncol = 2)
+
+plot_4.3
 
 ```
+It would seem that ridership actually increased, but let's look at the percent differences 
+to see how this compares. 
+```{r }
+ggplot() +
+  geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), 
+            color = "Red") +
+  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "Red") +
+  geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), 
+            color = "Black", group = 1) +
+  geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
+  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "Red") + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black")
+
+```
+This shows us a very different story. Here we can see that while ridership growth
+was positive, beginning in April of 2008 (month 3) that positive growth declined both 
+for Cermak-Chinatown and system wide, but where the system saw a resurgence in the positive 
+growth, Cermak-Chinatown stayed lower than the system-wide growth for the rest of the year, 
+with ridership only spiking to a seasonal high in January of 2009. Given the  timing of the 
+decline in positive growth, it is likely that the accident played a role in keeping ridership 
+lower in the months preceding the station project, which could suggest that the observed positive 
+growth that was previously observed could in part be inflated by the timing of the accident. 
+
+```{r Cermak vs System test, include = TRUE}
+
+# Was curious to see what the plot would look like if we plotted actual values before and after 
+# rather than the % difference. 
+
+a <- ggplot() +
+  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), 
+            color = "#ff9494") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), color = "#ff9494") + 
+  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), 
+            color = "#fa0000") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), color = "#fa0000")  
+  
+b <- ggplot() + 
+  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "#d1d1d1") +
+  geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "#d1d1d1") +
+  geom_line(data = System_Cermak, aes(x = month, y = after_mean), 
+            color = "#000000", group = 1) +
+  geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1), color = "#000000") 
+
+
+figure <- ggarrange(a, b, nrow = 1, ncol = 2)
+
+figure
+
+```
+
+Issue here is the drastically different y scales (almost a 100 fold difference), when compared
+side by side it makes it seem that the totals are similar, even though they are drastically different.
+What is helpful about displaying the data this way is that it makes deviations more clear. For example
+in this graph, the drop in ridership from months 3 to 5 after the project is clearly 
+a system wide decline, although with the difference scales it is hard to gauge the difference 
+in relative % terms. 
+
+Now to our next project of interest, the 95th/Dan-Ryan Terminal improvement project. 
+
+```{r, include=T}
+ggplot(DanRyan, aes(x = month, y = perc_mean)) +
+  geom_point(color = "Red") +
+  geom_line(group = 1, color = "Red") +
+  scale_y_continuous(limits = c(-25, 0)) + 
+  geom_hline(yintercept = 0)
+```
+Now this is interesting, despite the fact that this project vastly improved the terminal at 95th Street, 
+ridership actually appears to have significantly **decreased** when compared to ridership
+before the project. Let's look into this further. 
+
+```{r DanRyan vs System}
+plot_7 <- ggplot() +
+  geom_line(data = DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous(limits = c(-25,10)) +
+  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") 
+
+plot_7
+```
+It seems that over the same time period, the system also experienced a slight decline 
+in ridership of around -5%, while the 95th street terminal saw a drop in ridership of 
+nearly **-17%** Let's compare the before and after ridership numbers in total terms.
+
+```{r DanRyan B&A Total rides}
+plot_7.1 <- ggplot() +
+  geom_line(data = DanRyan, aes(x = month, y = Dan_bef), 
+            group = 1, color = "Red") +
+  geom_point(data = DanRyan, aes(x = month, y = Dan_bef), 
+            group = 1, color = "Red") +
+  geom_line(data = DanRyan, aes(x = month, y = Dan_aft), 
+            group = 1, color = "Black") +
+  geom_point(data = DanRyan, aes(x = month, y = Dan_aft), 
+            group = 1, color = "Black")
+
+plot_7.1
+```
+Now let's do the same for the entire system... 
+
+```{r System B&A Total rides}
+plot_7.2 <- ggplot() +
+  geom_line(data = System_DanRyan, aes(x = month, y = before_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = System_DanRyan, aes(x = month, y = before_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_DanRyan, aes(x = month, y = after_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_DanRyan, aes(x = month, y = after_mean), 
+            group = 1, color = "Black")
+
+plot_7.2
+```
+So for the same period the system appears to have experienced a drop in ridership, which 
+may account for some of the decline seen at 95th, but not for all of it. One possible
+explanation for the decline in ridership despite the notable improvements to the station 
+could be that riders, who were already dissatisfied with the poor service provided
+by the station shifted to other forms of transit in response to the construction 
+work in connection with the improvement project, which caused significant changes 
+to service to accommodate the construction without having to close the station. Once 
+the construction was completed these riders that had shifted modes simply continued 
+to use these alternative modes of transit, possibly because of skepticism that
+the station improvements would provide the service and customer experience 
+improvements that they promised to deliver. 
+
+That being said, it is difficult to gauge how much of this decrease is simply the result
+of riders slowly returning to this mode of transit, as the improvement project lasted nearly 2
+years beginning in March of 2017 and ending in January of 2019. Normally, we could simply refer to additional 
+data given that ridership data is available through 2021, however, the issue is that 
+within one year of this project being completed, ridership saw an **extreme** decline 
+as a result of the COVID-19 pandemic.
+
+While uncertainty remains as to *why* ridership was lower after the completion of the 
+95th terminal improvement project, it is clear that ridership did in fact decline over 
+the course of the project and still has not recovered to pre-project levels. This is particularly 
+interesting given that it is a major terminus for the CTA, with significant interconnecting bus
+service at the terminal. 
+
+Two other interesting cases are that of Jarvis and Garfield, two smaller stations that 
+essentially saw no change in ridership from before and after their respective improvement 
+projects. Both stations are located along the Red line which follows a primarily 
+North-South route through most of the city. Jarvis is located in the Far North side neighborhood 
+of Rodgers Park. On the opposite side of the city, Garfield is located in the South side
+neighborhood of Englewood. 
+
+```{r Jarvis vs System}
+plot_1 <- ggplot() +
+  geom_line(data = Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_Jarvis, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous(limits = c(-20,15)) +
+  geom_hline(yintercept = mean(Jarvis$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black")
+
+plot_1
+```
+
+```{r Garfield vs System}
+plot_6 <- ggplot() +
+  geom_line(data = Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = System_Garfield, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Black") 
+
+plot_6
+```
+
+
+```{r Clark/Div vs System}
+plot_3 <- ggplot() +
+  geom_line(data = Clark_Div, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = Clark_Div, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Clark_Division, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_Clark_Division, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_hline(yintercept = mean(Clark_Div$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(System_Clark_Division$perc_mean), color = "Black") 
+
+plot_3
+```
+
+
+```{r Addison vs System}
+plot_5 <- ggplot() +
+  geom_line(data = Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Blue") +
+  geom_point(data = Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Blue") +
+  geom_line(data = System_Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_Addison, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_hline(yintercept = mean(Addison$perc_mean), color = "Blue") +
+  geom_hline(yintercept = mean(System_Addison$perc_mean), color = "Black") +
+  scale_y_continuous(limits = c(-20,15))
+
+plot_5
+```
+
+
+
+```{r Wilson vs System}
+plot_2 <- ggplot() +
+  geom_line(data = Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_line(data = System_Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Red") +
+  geom_point(data = System_Wilson, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  scale_y_continuous() +
+  geom_hline(yintercept = mean(Wilson$perc_mean), color = "Red") +
+  geom_hline(yintercept = mean(System_Wilson$perc_mean), color = "Black") 
+
+plot_2
+```
+
+
+
+```{r Charts, fig.width = 30, eval = F, include = F}
+
+figures <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7, ncol = 7, nrow = 1)
+
+figures
+
+# Not helpful, too much info and too messy. 
+
+```
+
+
+# Conclusions
