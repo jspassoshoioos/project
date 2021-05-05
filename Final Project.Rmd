@@ -12,8 +12,6 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F, include = F)
 
 # Motivation and Research Questions
 
-## Needed Packages
-
 ```{r libraries for apis}
 #install.packages(c("httr", "jsonlite", "RSocrata"))
 library(httr)
@@ -84,11 +82,11 @@ The new question that emerges is:
 
 * If we accept that the system is inherently bias against minority communities, what 
 effect would we expect these projects to have on ridership within these communities? 
- + In a system that was made to serve primarily White, middle to upper class, primarily English speaking 
+     + In a system that was made to serve primarily White, middle to upper class, primarily English speaking 
  and highly educated areas, we would expect improvements to cluster in these communities and to result in a greater
  benefit (reflected through greater gains in ridership) than similar improvements made
  within communities that have been historically underserved by the CTA.  
- + If the improvements in these underserved communities are viewed within a "performative" 
+     + If the improvements in these underserved communities are viewed within a "performative" 
  framework (i.e., improvements are made to these communities as a form of lip service, 
  to create the appearance of equity, while not actually improving ridership), then we
  would expect improvements in these communities to have a less notable impact on 
@@ -869,7 +867,13 @@ sys_join %>%
 ## Demographics Tables
 
 After preparing and cleaning our demographic data, we were able to calculate the
-following demographic information, presented below in tabular format.
+following demographic information, presented below in tables (one table per demographic 
+variable). **Please note:** in addition to reporting the individual neighborhoods 
+where improvements were made, an aggregate row for all areas where CTA improvement 
+projects were taking place so that the aggregate area can be compared to the city-wide
+demography to see if there are any notable discrepencies between the areas where
+CTA projects were being carried out and the rest of the city. 
+
 
 ```{r Table of Race Data, include=TRUE}
 
@@ -885,6 +889,8 @@ percents  %>%
 
 ```
 
+
+
 ```{r Table of Lang Data, include=TRUE}
 
 percents  %>%
@@ -898,6 +904,8 @@ percents  %>%
   kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
 
 ```
+
+
 
 ```{r Table of Edu Data, include=T}
 
@@ -913,6 +921,7 @@ percents  %>%
 
 ```
 
+
 ```{r Table of Income, include=T}
 
 percents  %>%
@@ -920,36 +929,42 @@ percents  %>%
   kable(col.names = c("Area",
                       "Mean Median Income*"), 
         align = "ccc", 
-        caption = "Demographics of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
+        caption = "Average Median Income of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
         digits = 2, 
         format.args = list(big.mark = ",")) %>%
   kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
   add_footnote("Value in Real 2010 USD; Values were calculated by taking the median income of each census tract and then taking the average among tracts in a given neighborhood or across all tracts")
 
-
-
 ```
 
-The City of Chicago's population in 2010 was 2.6 million, and this estimates
-2.4 million so we are fairly close, a tract or two along the edges may have been
-excluded, but the bulk of the city's population is here in the data set. Now 
-that we have the data, we will begin with some basic plots of the percent 
-difference in means to see overall ridership changes.
+As previously noted, the City of Chicago's population in 2010 was 2.6 million, and 
+our data indicates an estimate of approximately 2.4 million so we are fairly close,
+a tract or two along the edges may have been excluded, but the bulk of the city's population 
+is contained in the data set. 
+
 
 ## Line Plots of Ridership  
+
+Now that we have seen the demographics of the areas that received improvements, we 
+can now move to plots of the change in ridership, including both the total change 
+in ridership as well as the change as a percentage of the difference between the 
+mean number of riders before and after the improvements were made. 
 
 ```{r themes} 
 
 red_line <- theme_minimal() + 
-  theme(plot.title = element_text(color = "#c60c30", size = 16, face = "bold"), 
+  theme(plot.title = element_text(color = "#c60c30", size = 14, face = "bold"), 
         plot.subtitle = element_text(face = "bold.italic", size = 8), 
         plot.caption = element_text(face = "italic", hjust = 0.5), 
         legend.position = "bottom", legend.box = "vertical") 
 
 ```
 
-```{r, include=T}
-# First, Cermak-Chinatown
+## Cermak-Chinatown
+
+First, we will look at the data for Cermak-Chinatown. 
+
+```{r, include = T}
 
 ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
   geom_point(color = "Red") +
@@ -966,7 +981,7 @@ Here when looking at the period before and after reconstruction,
 we can see that there was a notable increase in ridership after the project was
 completed. But how did the system compare for the same time-period? 
 
-```{r Cermak vs System, include=T}
+```{r Cermak vs System, include = T}
 plot_4 <- ggplot() +
   geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5, linetype = "twodash") +
@@ -1015,9 +1030,10 @@ house, killing two people and injuring 21. The accident left the public shaken, 
 many faulting a lack of pedestrian shielding (i.e., bollards) as a cause for the deaths. 
 
 If we shift the 12 month period from November 2008 to November 2009 to include the months leading up to
-and after the accident (i.e., February 2008 to February 2009): 
+and after the accident (i.e., February 2008 to February 2009), then we should be able 
+to observe a notable drop off in response to the accident: 
 
-```{r 2008 down trend, include=T}
+```{r 2008 down trend, include = T}
 
 plot_4.1 <- ggplot() +
   geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30", alpha = 0.5, linetype = "twodash") + 
@@ -1046,7 +1062,7 @@ plot_4.3
 ```
 It would seem that ridership actually increased, but let's look at the percent differences 
 to see how this compares. 
-```{r include=T}
+```{r, include = T}
 ggplot() +
   geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5, linetype = "twodash") +
@@ -1076,7 +1092,7 @@ decline in positive growth, it is likely that the accident played a role in keep
 lower in the months preceding the station project, which could suggest that the observed positive 
 growth that was previously observed could in part be inflated by the timing of the accident. 
 
-```{r Cermak vs System test, include = TRUE}
+```{r Cermak vs System test, include = T}
 
 # Was curious to see what the plot would look like if we plotted actual values before and after 
 # rather than the % difference. 
@@ -1133,6 +1149,8 @@ in this graph, the drop in ridership from months 3 to 5 after the project is cle
 a system wide decline, although with the difference scales it is hard to gauge the difference 
 in relative % terms. 
 
+## 95th/Dan Ryan 
+
 Now to our next project of interest, the 95th/Dan-Ryan Terminal improvement project. 
 
 ```{r, include=T}
@@ -1147,7 +1165,7 @@ Now this is interesting, despite the fact that this project vastly improved the 
 ridership actually appears to have significantly **decreased** when compared to ridership
 before the project. Let's look into this further. 
 
-```{r DanRyan vs System}
+```{r DanRyan vs System, include=T}
 plot_7 <- ggplot() +
   geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
   geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") +
@@ -1178,7 +1196,7 @@ It seems that over the same time period, the system also experienced a slight de
 in ridership of around -5%, while the 95th street terminal saw a drop in ridership of 
 nearly **17%** Let's compare the before and after ridership numbers in total terms.
 
-```{r DanRyan B&A Total rides}
+```{r DanRyan B&A Total rides, include =T}
 plot_7.1 <- ggplot() +
   geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_bef), color = "#c60c30"), alpha = 0.5, linetype = "twodash") + 
   geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_aft), color = "#f598a9"), alpha = 0.5, linetype = "twodash") +
@@ -1245,6 +1263,8 @@ While uncertainty remains as to *why* ridership was lower after the completion o
 the course of the project and still has not recovered to pre-project levels. This is particularly 
 interesting given that it is a major terminus for the CTA, with significant interconnecting bus
 service at the terminal. 
+
+## Jarvis and Garfield 
 
 Two other interesting cases are that of Jarvis and Garfield, two smaller stations that 
 essentially saw no change in ridership from before and after their respective improvement 
