@@ -1,5 +1,5 @@
 ---
-title: "PA 434 Final Project"
+title: "PA 434 Final Project - Messy"
 author: "Mia Krout & Jake da Silva Passos-Hoioos"
 date: "4/25/2021"
 output: pdf_document
@@ -7,7 +7,7 @@ urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
+knitr::opts_chunk$set(echo = F, message = F, warning = F, include = F)
 ```
 
 # Motivation and Research Questions
@@ -917,7 +917,7 @@ percents  %>%
         caption = "Educational Attainment of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
         digits = 2, 
         format.args = list(big.mark = ",")) %>%
-  kable_styling(latex_options = c("striped", "scale_down", "hold_position"))
+  kable_styling(latex_options = c("striped", "scale_down"))
 
 ```
 
@@ -932,7 +932,7 @@ percents  %>%
         caption = "Average Median Income of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
         digits = 2, 
         format.args = list(big.mark = ",")) %>%
-  kable_styling(latex_options = c("striped", "scale_down", "hold_position")) %>%
+  kable_styling(latex_options = c("striped", "scale_down")) %>%
   add_footnote("Value in Real 2010 USD; Values were calculated by taking the median income of each census tract and then taking the average among tracts in a given neighborhood or across all tracts")
 
 ```
@@ -941,6 +941,9 @@ As previously noted, the City of Chicago's population in 2010 was 2.6 million, a
 our data indicates an estimate of approximately 2.4 million so we are fairly close,
 a tract or two along the edges may have been excluded, but the bulk of the city's population 
 is contained in the data set. 
+
+
+\newpage
 
 
 ## Line Plots of Ridership  
@@ -1149,6 +1152,8 @@ in this graph, the drop in ridership from months 3 to 5 after the project is cle
 a system wide decline, although with the difference scales it is hard to gauge the difference 
 in relative % terms. 
 
+\newpage
+
 ## 95th/Dan Ryan 
 
 Now to our next project of interest, the 95th/Dan-Ryan Terminal improvement project. 
@@ -1263,6 +1268,8 @@ While uncertainty remains as to *why* ridership was lower after the completion o
 the course of the project and still has not recovered to pre-project levels. This is particularly 
 interesting given that it is a major terminus for the CTA, with significant interconnecting bus
 service at the terminal. 
+
+\newpage
 
 ## Jarvis and Garfield 
 
