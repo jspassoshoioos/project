@@ -37,7 +37,7 @@ now. [Racial dot maps](http://www.radicalcartography.net/index.html?chicagodots)
 of the city are particularly revealing of the city's continued racial and ethnic 
 homogeneity across the city, most predominately among Black Chicagoans on the South
 and West Sides. Political boundaries, most notably,
-[Congressional districts](https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/United_States_Congressional_Districts_in_Illinois_%28metro_highli,ght%29%2C_2003_%E2%80%93_2013.tif/lossless-page1-400px-United_States_Congressional_Districts_in_Illinois_%28metro_highlight%29%2C_2003_%E2%80%93_2013.tif.png) take particularly unusual form in an effort to follow these tight boundaries. 
+[Congressional districts](https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/United_States_Congressional_Districts_in_Illinois_%28metro_highlight%29%2C_2003_%E2%80%93_2013.tif/lossless-page1-1226px-United_States_Congressional_Districts_in_Illinois_%28metro_highlight%29%2C_2003_%E2%80%93_2013.tif.png) take particularly unusual form in an effort to follow these tight boundaries. 
 
 Acknowledging the extent of the city's segregated state is critical, as even the 
 wishful or naive supposition that the city is not segregated can have profound
@@ -126,9 +126,7 @@ listings of census tracts are provided at the *county* level, and even then the 
 instance that we could find a full listing of census tracts in Cook County from a 
 U.S. government department or agency, was from the [Department of Justice (DOJ)](https://www.justice.gov/crt/designated-census-tracts-chicago-il-pmsa-county). 
 For the purposes of this analysis, the specific census tracts in the city of Chicago 
-were determined from [this map](https://www.csu.edu/cerc/documents/ChicagoCommunityAreasMapWithCensusTracts2000-NIPC.pdf) published by the Northeastern Illinois Planning Commission. 
-
-What quickly became apparent was there was some data missing. The 2010 census found 
+were determined from [this map](https://www.csu.edu/cerc/documents/ChicagoCommunityAreasMapWithCensusTracts2000-NIPC.pdf) published by the Northeastern Illinois Planning Commission. What quickly became apparent was there was some data missing. The 2010 census found 
 a total population for the city of Chicago to be approximately 2.6 million, while 
 our the aggregate of our census data indicates a population estimate of approximately 2.4 
 million. 
@@ -442,6 +440,8 @@ percents <- chicago_2010 %>%
 
 
 percents$neighborhood <- str_to_title(percents$neighborhood)
+
+percents$neighborhood <- replace(percents$neighborhood, 8, "Areas with CTA Impovements")
 ```
 
 ```{r Lang check}
@@ -920,7 +920,8 @@ ggplot(Cer_Chi, aes(x = month, y = perc_mean)) +
   geom_point(color = "Red") +
   geom_line(group = 1, color = "Red") +
   scale_y_continuous(limits = c(0, 30)) + 
-  geom_hline(yintercept = 0)
+  geom_hline(yintercept = 0) + 
+  red_line
 ```
 Cermak-Chinatown station is located in Chicago's Armour Square, which is situated just to the Southwest of 
 downtown. The presence of Chinatown in Armour Square means the area is predominantly of Asian 
@@ -934,8 +935,8 @@ completed. But how did the system compare for the same time-period?
 plot_4 <- ggplot() +
   geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5) +
-  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), 
-            color = "#c60c30") +
+  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, 
+            color = "#c60c30")) +
   geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
   geom_line(data = System_Cermak, aes(x = month, y = perc_mean), 
             color = "Black", group = 2) +
@@ -987,8 +988,9 @@ plot_4.1 <- ggplot() +
   geom_line(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), 
             color = "#c60c30") +
   geom_point(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), color = "#c60c30") +
-  geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30") + 
-  xlab("Average Number of Riders per Month") +
+  geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30", alpha = 0.5) + 
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
   labs(title = "Cermak-Chinatown") +
   red_line
 
@@ -996,8 +998,9 @@ plot_4.2 <- ggplot() +
   geom_line(data = System_Cermak2, aes(x = month, y = before_mean), 
             color = "Black", group = 1) +
   geom_point(data = System_Cermak2, aes(x = month, y = before_mean, group = 1), color = "Black") +
-  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black") + 
-  xlab("Average Number of Riders per Month") +
+  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black", alpha = 0.5) + 
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
   labs(title = "System-Wide") +
   red_line + 
   theme(plot.title = element_text(color = "Black", size = 16, face = "bold"))
@@ -1008,16 +1011,16 @@ plot_4.3
 ```
 It would seem that ridership actually increased, but let's look at the percent differences 
 to see how this compares. 
-```{r}
+```{r include=T}
 ggplot() +
   geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5) +
-  geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), 
-            color = "#c60c30") +
-  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "#c60c30") +
+  geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, 
+            color = "#c60c30")) +
+  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
   geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), 
             color = "Black", group = 1) +
-  geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
+  geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1, color = "Black")) + 
   labs(title = "Cermak-Chinatown vs. System Wide Feb. 2008 to Feb. 2009",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
   xlab("Number of Months Before/After Project") + 
@@ -1045,28 +1048,28 @@ growth that was previously observed could in part be inflated by the timing of t
 
 
 a <- ggplot() +
-  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), 
-            color = "#c60c30") +
+  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, 
+            color = "#c60c30")) +
   geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#c60c30")) + 
   geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), 
-            color = "#ff0f3d") +
-  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1, color = "#ff0f3d"))  + 
+            color = "#f598a9") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1, color = "#f598a9"))  + 
   scale_color_manual(name = "Time", 
-                    labels = c("Before)", "After"), 
-                    values = c("#c60c30", "#ff0f3d")) +
+                    labels = c("Before", "After"), 
+                    values = c("#c60c30", "#f598a9")) +
   labs(title = "Cermak-Chinatown") +
   xlab("Number of Months Before/After Project") + 
   ylab("Mean # of Riders") +
   red_line
   
 b <- ggplot() + 
-  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "Black") +
+  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_line(data = System_Cermak, aes(x = month, y = after_mean), 
             color = "Gray", group = 1) +
   geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1, color = "Gray")) +
   scale_color_manual(name = "Time", 
-                    labels = c("Before)", "After"), 
+                    labels = c("Before", "After"), 
                     values = c("Black", "Gray")) + 
   labs(title = "System-Wide") +
   xlab("Number of Months Before/After Project") + 
@@ -1084,7 +1087,7 @@ figure
 
 ```
 
-One issue here is the drastically different y scales (almost a 100 fold difference), when compared
+One issue here is the **drastically different** y scales (almost a 100 fold difference), when compared
 side by side it makes it seem as though the totals are similar, even though they are drastically different.
 What is helpful about displaying the data this way is that it makes deviations more clear. For example
 in this graph, the drop in ridership from months 3 to 5 after the project is clearly 
@@ -1098,7 +1101,8 @@ ggplot(DanRyan, aes(x = month, y = perc_mean)) +
   geom_point(color = "Red") +
   geom_line(group = 1, color = "Red") +
   scale_y_continuous(limits = c(-25, 0)) + 
-  geom_hline(yintercept = 0)
+  geom_hline(yintercept = 0) + 
+  red_line
 ```
 Now this is interesting, despite the fact that this project vastly improved the terminal at 95th Street, 
 ridership actually appears to have significantly **decreased** when compared to ridership
@@ -1106,23 +1110,23 @@ before the project. Let's look into this further.
 
 ```{r DanRyan vs System}
 plot_7 <- ggplot() +
-  geom_line(data = DanRyan, aes(x = month, y = perc_mean), 
-            group = 1, color = "#c60c30") +
-  geom_point(data = DanRyan, aes(x = month, y = perc_mean, color = "#c60c30"), 
-            group = 1) +
+  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
+  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30", alpha = 0.5) +
+  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black", alpha = 0.5) +
+  geom_line(data = DanRyan, aes(x = month, y = perc_mean, 
+            group = 1, color = "#c60c30")) +
+  geom_point(data = DanRyan, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
   geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), 
             group = 1, color = "Black") +
-  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean,  color = "Black"), 
-            group = 1) +
+  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean, color = "Black", 
+            group = 1)) +
   scale_y_continuous(limits = c(-25,10)) +
-  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30") +
-  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") +
+ 
   labs(title = "Change in Ridership at 95th/Dan Ryan vs. System Wide",
        subtitle = "Difference in the average number of riders for the 12 month period before March 2017 and after January 2019",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
   xlab("Number of Months Before/After Project") + 
   ylab("% Change in Mean Ridership") +
-  geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
   scale_color_manual(name = "Station", 
                     labels = c("95th/Dan Ryan (Red Line)", "System-wide"), 
                     values = c("#c60c30", "Black")) +
@@ -1137,15 +1141,16 @@ nearly **17%** Let's compare the before and after ridership numbers in total ter
 
 ```{r DanRyan B&A Total rides}
 plot_7.1 <- ggplot() +
-  geom_line(data = DanRyan, aes(x = month, y = Dan_bef), 
-            group = 1, color = "Red") +
-  geom_point(data = DanRyan, aes(x = month, y = Dan_bef), 
-            group = 1, color = "Red") +
-  geom_hline() +
-  geom_line(data = DanRyan, aes(x = month, y = Dan_aft), 
-            group = 1, color = "Black") +
-  geom_point(data = DanRyan, aes(x = month, y = Dan_aft), 
-            group = 1, color = "Black")
+  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_bef), color = "#c60c30", alpha = 0.5)) + 
+  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_aft), color = "#f598a9", alpha = 0.5)) +
+  geom_line(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#c60c30")) +
+  geom_point(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#c60c30")) +
+  geom_line(data = DanRyan, aes(x = month, y = Dan_aft),group = 1, color = "#f598a9") +
+  geom_point(data = DanRyan, aes(x = month, y = Dan_aft, group = 1, color = "#f598a9")) + 
+  scale_color_manual(name = "Time", 
+                    labels = c("Before", "After"), 
+                    values = c("#c60c30", "#f598a9")) +
+  red_line
 
 plot_7.1
 ```
