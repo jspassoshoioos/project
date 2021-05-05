@@ -933,8 +933,8 @@ completed. But how did the system compare for the same time-period?
 
 ```{r Cermak vs System, include=T}
 plot_4 <- ggplot() +
-  geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
-  geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5) +
+  geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5, linetype = "twodash") +
   geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, 
             color = "#c60c30")) +
   geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
@@ -985,20 +985,20 @@ and after the accident (i.e., February 2008 to February 2009):
 ```{r 2008 down trend, include=T}
 
 plot_4.1 <- ggplot() +
+  geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30", alpha = 0.5, linetype = "twodash") + 
   geom_line(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), 
             color = "#c60c30") +
   geom_point(data = Cer_Chi2, aes(x = month, y = Cer_Chi_bef, group = 1), color = "#c60c30") +
-  geom_hline(yintercept = mean(Cer_Chi2$Cer_Chi_bef), color = "#c60c30", alpha = 0.5) + 
   xlab("Number of Months Before/After Project") + 
   ylab("Mean # of Riders") +
   labs(title = "Cermak-Chinatown") +
   red_line
 
-plot_4.2 <- ggplot() +   
+plot_4.2 <- ggplot() + 
+  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black", alpha = 0.5, linetype = "twodash") + 
   geom_line(data = System_Cermak2, aes(x = month, y = before_mean), 
             color = "Black", group = 1) +
   geom_point(data = System_Cermak2, aes(x = month, y = before_mean, group = 1), color = "Black") +
-  geom_hline(yintercept = mean(System_Cermak2$before_mean), color = "Black", alpha = 0.5) + 
   xlab("Number of Months Before/After Project") + 
   ylab("Mean # of Riders") +
   labs(title = "System-Wide") +
@@ -1013,8 +1013,8 @@ It would seem that ridership actually increased, but let's look at the percent d
 to see how this compares. 
 ```{r include=T}
 ggplot() +
-  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
-  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5) +
+  geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") + # Include average lines to help see average despite variation 
+  geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5, linetype = "twodash") +
   geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, 
             color = "#c60c30")) +
   geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
@@ -1048,6 +1048,8 @@ growth that was previously observed could in part be inflated by the timing of t
 
 
 a <- ggplot() +
+  geom_hline(data = Cer_Chi, aes(yintercept = mean(Cer_Chi$Cer_Chi_bef), color = "#c60c30"), alpha = 0.5, linetype = "twodash") + 
+  geom_hline(data = DanRyan, aes(yintercept = mean(Cer_Chi$Cer_Chi_aft), color = "#f598a9"), alpha = 0.5, linetype = "twodash") +
   geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, 
             color = "#c60c30")) +
   geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#c60c30")) + 
@@ -1062,7 +1064,9 @@ a <- ggplot() +
   ylab("Mean # of Riders") +
   red_line
   
-b <- ggplot() + 
+b <- ggplot() +
+  geom_hline(data = System_Cermak, aes(yintercept = mean(System_Cermak$before_mean), color = "Black"), alpha = 0.5, linetype = "twodash") + 
+  geom_hline(data = System_Cermak, aes(yintercept = mean(System_Cermak$after_mean), color = "Gray"), alpha = 0.5, linetype = "twodash") +
   geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_line(data = System_Cermak, aes(x = month, y = after_mean), 
@@ -1111,8 +1115,8 @@ before the project. Let's look into this further.
 ```{r DanRyan vs System}
 plot_7 <- ggplot() +
   geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
-  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30", alpha = 0.5) +
-  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black", alpha = 0.5) +
+  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30", alpha = 0.5, linetype = "twodash") +
+  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black", alpha = 0.5, linetype = "twodash") +
   geom_line(data = DanRyan, aes(x = month, y = perc_mean, 
             group = 1, color = "#c60c30")) +
   geom_point(data = DanRyan, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
@@ -1141,8 +1145,8 @@ nearly **17%** Let's compare the before and after ridership numbers in total ter
 
 ```{r DanRyan B&A Total rides}
 plot_7.1 <- ggplot() +
-  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_bef), color = "#c60c30", alpha = 0.5)) + 
-  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_aft), color = "#f598a9", alpha = 0.5)) +
+  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_bef), color = "#c60c30"), alpha = 0.5, linetype = "twodash") + 
+  geom_hline(data = DanRyan, aes(yintercept = mean(DanRyan$Dan_aft), color = "#f598a9"), alpha = 0.5, linetype = "twodash") +
   geom_line(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#c60c30")) +
   geom_point(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#c60c30")) +
   geom_line(data = DanRyan, aes(x = month, y = Dan_aft),group = 1, color = "#f598a9") +
@@ -1150,25 +1154,38 @@ plot_7.1 <- ggplot() +
   scale_color_manual(name = "Time", 
                     labels = c("Before", "After"), 
                     values = c("#c60c30", "#f598a9")) +
+  labs(title = "95th/Dan Ryan") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
   red_line
 
 plot_7.1
-```
-Now let's do the same for the entire system... 
 
-```{r System B&A Total rides}
-plot_7.2 <- ggplot() +
-  geom_line(data = System_DanRyan, aes(x = month, y = before_mean), 
-            group = 1, color = "Red") +
-  geom_point(data = System_DanRyan, aes(x = month, y = before_mean), 
-            group = 1, color = "Red") +
-  geom_line(data = System_DanRyan, aes(x = month, y = after_mean), 
-            group = 1, color = "Black") +
-  geom_point(data = System_DanRyan, aes(x = month, y = after_mean), 
-            group = 1, color = "Black")
+plot_7.2 <- ggplot() + 
+  geom_hline(data = System_DanRyan, aes(yintercept = mean(System_DanRyan$before_mean), color = "Black"), alpha = 0.5, linetype = "twodash") + 
+  geom_hline(data = System_DanRyan, aes(yintercept = mean(System_DanRyan$after_mean), color = "Gray"), alpha = 0.5, linetype = "twodash") + 
+  geom_line(data = System_DanRyan, aes(x = month, y = before_mean, group = 1, color = "Black")) +
+  geom_point(data = System_DanRyan, aes(x = month, y = before_mean, group = 1, color = "Black")) +
+geom_line(data = System_DanRyan, aes(x = month, y = after_mean, group = 1, color = "Gray")) +
+  geom_point(data = System_DanRyan, aes(x = month, y = after_mean, group = 1, color = "Gray")) +
+   scale_color_manual(name = "Time", 
+                    labels = c("Before", "After"), 
+                    values = c("Black", "Gray")) + 
+  labs(title = "System-Wide") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("Mean # of Riders") +
+  red_line + 
+  theme(plot.title = element_text(color = "Black", size = 16, face = "bold"))
 
-plot_7.2
+
+figure_2 <- ggarrange(plot_7.1, plot_7.2, nrow = 1, ncol = 2)
+
+
+figure_2
+
+  
 ```
+
 So for the same period the system appears to have experienced a drop in ridership, which 
 may account for some of the decline seen at 95th, but not for all of it. One possible
 explanation for the decline in ridership despite the notable improvements to the station 
@@ -1201,39 +1218,50 @@ North-South route through most of the city. Jarvis is located in the Far North s
 of Rodgers Park. On the opposite side of the city is Garfield, located in the South side
 neighborhood of Englewood. 
 
-```{r Jarvis vs System}
+```{r Jarvis vs System, include=T}
 plot_1 <- ggplot() +
   geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
-  geom_line(data = Jarvis, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
-  geom_point(data = Jarvis, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
-  geom_line(data = System_Jarvis, aes(x = month, y = perc_mean), 
-            group = 1, color = "Black") +
-  geom_point(data = System_Jarvis, aes(x = month, y = perc_mean), 
-            group = 1, color = "Black") +
+  geom_hline(data = Jarvis, aes(yintercept = mean(Jarvis$perc_mean), color = "#c60c30"), alpha = 0.5, linetype = "twodash") +
+  geom_hline(data = System_Jarvis, aes(yintercept = mean(System_Jarvis$perc_mean), color = "Black"), alpha = 0.5, linetype = "twodash") +
+  geom_line(data = Jarvis, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
+  geom_point(data = Jarvis, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
+  geom_line(data = System_Jarvis, aes(x = month, y = perc_mean, group = 1, color = "Black")) +
+  geom_point(data = System_Jarvis, aes(x = month, y = perc_mean, group = 1, color = "Black")) +
   scale_y_continuous(limits = c(-20,15)) +
-  geom_hline(yintercept = mean(Jarvis$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black")
+  labs(title = "Change in Ridership at Jarvis vs. System Wide",
+       subtitle = "Difference in the average number of riders for the 12 month period before November 2012 and after December 2012",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("% Change in Mean Ridership") +
+  scale_color_manual(name = "Station", 
+                    labels = c("Jarvis (Red Line)", "System-wide"), 
+                    values = c("#c60c30", "Black")) +
+  red_line
+
 
 
 
 plot_1
 ```
 
-```{r Garfield vs System}
+```{r Garfield vs System, include=T}
 plot_6 <- ggplot() +
-  geom_line(data = Garfield, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
-  geom_line(data = System_Garfield, aes(x = month, y = perc_mean), 
-            group = 1, color = "Black") +
-  geom_point(data = Garfield, aes(x = month, y = perc_mean), 
-            group = 1, color = "Red") +
-  geom_point(data = System_Garfield, aes(x = month, y = perc_mean), 
-            group = 1, color = "Black") +
-  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Red") +
-  geom_hline(yintercept = mean(Garfield$perc_mean), color = "Black") +
   geom_hline(yintercept = 0, color = "Gray", linetype = "dashed") +
+  geom_hline(data = Garfield, aes(yintercept = mean(Garfield$perc_mean)), color = "#c60c30", alpha = 0.5, linetype = "twodash") +
+  geom_hline(data = System_Garfield, aes(yintercept = mean(Garfield$perc_mean)), color = "Black", alpha = 0.5, linetype = "twodash") +
+  geom_line(data = Garfield, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
+  geom_point(data = Garfield, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
+  geom_line(data = System_Garfield, aes(x = month, y = perc_mean), group = 1, color = "Black") +
+  geom_point(data = System_Garfield, aes(x = month, y = perc_mean, color = "Black"), group = 1) +
+  scale_y_continuous(limits = c(-20,20)) +
+  labs(title = "Change in Ridership at Garfield vs. System Wide",
+       subtitle = "Difference in the average number of riders for the 12 month period before May 2013 and after October 2013",
+       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
+  xlab("Number of Months Before/After Project") + 
+  ylab("% Change in Mean Ridership") +
+  scale_color_manual(name = "Station", 
+                    labels = c("Garfield (Red Line)", "System-wide"), 
+                    values = c("#c60c30", "Black")) +
   red_line
 
 plot_6
