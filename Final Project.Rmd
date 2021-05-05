@@ -442,8 +442,6 @@ percents <- chicago_2010 %>%
 
 
 percents$neighborhood <- str_to_title(percents$neighborhood)
-
-percents$neighborhood <- replace(percents$neighborhood, 8, "Areas with CTA Impovements")
 ```
 
 ```{r Lang check}
@@ -540,11 +538,12 @@ cta1 <- as_tibble(
 cta1
 ```
 
-The dates are presented in year-month-day format in one column which is great for when we look at
-ranges of ridership. But we want to report station averages by month so we
-separate the date into new columns in order to filter.
 
 ```{r filtering for the data I want and new date columns}
+#The dates are presented in year-month-day format in one column which is great for when we look at
+#ranges of ridership. But we want to report station averages by month so we
+#separate the date into new columns in order to filter.
+
 cta2 <- 
   cta1 %>%
   group_by(stationname, date, rides) %>%
@@ -554,11 +553,12 @@ cta2
 
 ```
 
-The specific month for the beginning of the Addison project was unavailable, all sources 
-we found indicated that construction "began in Fall 2015," 
-so we chose to look at ridership between Oct 2014- Oct 2015.
 
 ```{r ridership averages by station}
+#The specific month for the beginning of the Addison project was unavailable, all sources 
+#we found indicated that construction "began in Fall 2015," 
+#so we chose to look at ridership between Oct 2014- Oct 2015.
+
 Cer_Chi <- 
   cta2 %>%
   filter(stationname == "Cermak-Chinatown") %>%
@@ -640,10 +640,10 @@ DanRyan <-
 DanRyan
 ```
 
-When using cbind it will include the month rows for each data set so we will need to join the data
-sets using a join function so they are joined by the month column.
-
 ```{r cbind}
+#When using cbind it will include the month rows for each data set so we will need to join the data
+#sets using a join function so they are joined by the month column.
+
 cta3 <- 
   cbind(Cer_Chi, Clark_Div, Jarvis, Garfield, Wilson, Addison, DanRyan)
 
@@ -651,8 +651,9 @@ cta3 %>%
   kable()
 ```
 
-We were unable to join all of the data together in one pipe so we added one at a time.
 ```{r joining data sets}
+#We were unable to join all of the data together in one pipe so we added one at a time.
+
 join <- 
   left_join(Cer_Chi, Clark_Div, by = "month") #some join function would not run without indicating "by"
 join
@@ -678,10 +679,12 @@ CTA_data <-
 CTA_data
 ```
 
-We made a table to inspect the station-level data and use as a reference point for our ridership changes.
-For brevity sake and ease of interpretation for our readers we found the visualization
-of this information in graph form to be more appropriate.
+
 ```{r table the station data}
+#We made a table to inspect the station-level data and use as a reference point for our ridership changes.
+#For brevity sake and ease of interpretation for our readers we found the visualization
+#of this information in graph form to be more appropriate.
+
 CTA_data %>%
   kable(col.names = c("Month", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", "Diff Mean", "Perc Mean", "Before", "After", 
                       "Diff Mean", "Perc Mean", 
@@ -698,10 +701,10 @@ CTA_data %>%
                      "Garfield" = 4, "Wilson" = 4, "Addison" = 4, "95th/Dan Ryan" = 4))
 ```
 
-
-We filtered the entire data set to only include the weekday data and to include
-additional date columns for ease of filtering later.
 ```{r system changes}
+#We filtered the entire data set to only include the weekday data and to include
+#additional date columns for ease of filtering later.
+
 cta_system <- 
   cta %>%
   filter(daytype == "W") %>%
@@ -710,25 +713,11 @@ cta_system <-
          month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d"))
 ```
 
-
-```{r}
-#cta %>%
-  #filter(daytype == "W",
-         #date <= as.Date("2013-12-31") & date >= as.Date("2012-12-01")) %>%
-  #mutate(rides = as.numeric(rides)) %>% 
-  #mutate(month = format(date, "%m"), year = format(date, "%Y"), day = format(date, "%d")) %>%
-  #group_by(month, day) %>%
-  #summarise(monthday_tot = sum(rides)) %>% 
-  #group_by(month) %>% 
-  #summarise(mean = mean(monthday_tot))
-
-```
-
-
-We looked at the system-wide changes over the same period of each project to understand
-whether any changes in ridership were a result of investment or were following city-wide
-trends in ridership.
 ```{r system wide}
+#We looked at the system-wide changes over the same period of each project to understand
+#whether any changes in ridership were a result of investment or were following city-wide
+#trends in ridership.
+
 System_Cermak <- 
   cta_system %>%
   group_by(month, day) %>%
@@ -866,7 +855,7 @@ percents  %>%
 percents  %>%
   select(neighborhood,  native_gd_per:primary_sp) %>%
   kable(col.names = c("Area",
-                      "English Only", "Non-Native English", "Primary Not Eng", "Spanish"), 
+                      "English", "Non-Native English", "Primary Not Eng", "Spanish"), 
         align = "ccc", 
         caption = "Language Composition of Neighborhoods where CTA Improvements were Made, and City-Wide Values",
         digits = 2, 
@@ -906,15 +895,13 @@ percents  %>%
 
 
 ```
-
-City of Chicago's population in 2010 was 2.6 million, and this estimates
+The City of Chicago's population in 2010 was 2.6 million, and this estimates
 2.4 million so we are fairly close, a tract or two along the edges may have been
-excluded, but the bulk of the city's population is here in the data set.
+excluded, but the bulk of the city's population is here in the data set. Now 
+that we have the data, we will begin with some basic plots of the percent 
+difference in means to see overall ridership changes.
 
 ## Line Plots of Ridership  
-
-Now that we have the data, we will begin with some basic plots of the percent 
-difference in means to see overall ridership changes. 
 
 ```{r themes} 
 
@@ -947,8 +934,8 @@ completed. But how did the system compare for the same time-period?
 plot_4 <- ggplot() +
   geom_hline(yintercept = mean(Cer_Chi$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak$perc_mean), color = "Black", alpha = 0.5) +
-  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, 
-            color = "#c60c30")) +
+  geom_line(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1), 
+            color = "#c60c30") +
   geom_point(data = Cer_Chi, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
   geom_line(data = System_Cermak, aes(x = month, y = perc_mean), 
             color = "Black", group = 2) +
@@ -1025,12 +1012,13 @@ to see how this compares.
 ggplot() +
   geom_hline(yintercept = mean(Cer_Chi2$perc_mean), color = "#c60c30", alpha = 0.5) + # Include average lines to help see average despite variation 
   geom_hline(yintercept = mean(System_Cermak2$perc_mean), color = "Black", alpha = 0.5) +
-  geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
-  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
-  geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), color = "Black", group = 1) +
-  geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1, color = "Black")) + 
-  labs(title = "Cermak-Chinatown vs. System Wide",
-       subtitle = "Before February 2008 and After February 2009", 
+  geom_line(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), 
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi2, aes(x = month, y = perc_mean, group = 1), color = "#c60c30") +
+  geom_line(data = System_Cermak2, aes(x = month, y = perc_mean), 
+            color = "Black", group = 1) +
+  geom_point(data = System_Cermak2, aes(x = month, y = perc_mean, group = 1), color = "Black") + 
+  labs(title = "Cermak-Chinatown vs. System Wide Feb. 2008 to Feb. 2009",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
   xlab("Number of Months Before/After Project") + 
   ylab("% Change in Mean Ridership") +
@@ -1057,26 +1045,28 @@ growth that was previously observed could in part be inflated by the timing of t
 
 
 a <- ggplot() +
-  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#e89bab")) +
-  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#e89bab")) + 
-  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), color = "#c60c30") +
-  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1, color = "#c60c30"))  + 
+  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1), 
+            color = "#c60c30") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_bef, group = 1, color = "#c60c30")) + 
+  geom_line(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1), 
+            color = "#ff0f3d") +
+  geom_point(data = Cer_Chi, aes(x = month, y = Cer_Chi_aft, group = 1, color = "#ff0f3d"))  + 
   scale_color_manual(name = "Time", 
-                    labels = c("After", "Before"), 
-                    values = c("#c60c30", "#e89bab")) +
+                    labels = c("Before)", "After"), 
+                    values = c("#c60c30", "#ff0f3d")) +
   labs(title = "Cermak-Chinatown") +
   xlab("Number of Months Before/After Project") + 
   ylab("Mean # of Riders") +
   red_line
   
 b <- ggplot() + 
-  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Gray")) +
-  geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Gray")) +
+  geom_line(data = System_Cermak, aes(x = month, y = before_mean, group = 1), color = "Black") +
+  geom_point(data = System_Cermak, aes(x = month, y = before_mean, group = 1, color = "Black")) +
   geom_line(data = System_Cermak, aes(x = month, y = after_mean), 
-            color = "Black", group = 1) +
-  geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1, color = "Black")) +
+            color = "Gray", group = 1) +
+  geom_point(data = System_Cermak, aes(x = month, y = after_mean, group = 1, color = "Gray")) +
   scale_color_manual(name = "Time", 
-                    labels = c("After", "Before"), 
+                    labels = c("Before)", "After"), 
                     values = c("Black", "Gray")) + 
   labs(title = "System-Wide") +
   xlab("Number of Months Before/After Project") + 
@@ -1114,16 +1104,19 @@ Now this is interesting, despite the fact that this project vastly improved the 
 ridership actually appears to have significantly **decreased** when compared to ridership
 before the project. Let's look into this further. 
 
-```{r DanRyan vs System, include = T}
+```{r DanRyan vs System}
 plot_7 <- ggplot() +
-  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30", alpha = 0.5) +
-  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black", alpha = 0.5) +
-  geom_line(data = DanRyan, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
-  geom_point(data = DanRyan, aes(x = month, y = perc_mean, group = 1, color = "#c60c30")) +
-  geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), group = 1, color = "Black") +
-  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean, color = "Black"), 
+  geom_line(data = DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "#c60c30") +
+  geom_point(data = DanRyan, aes(x = month, y = perc_mean, color = "#c60c30"), 
+            group = 1) +
+  geom_line(data = System_DanRyan, aes(x = month, y = perc_mean), 
+            group = 1, color = "Black") +
+  geom_point(data = System_DanRyan, aes(x = month, y = perc_mean,  color = "Black"), 
             group = 1) +
   scale_y_continuous(limits = c(-25,10)) +
+  geom_hline(yintercept = mean(DanRyan$perc_mean), color = "#c60c30") +
+  geom_hline(yintercept = mean(System_DanRyan$perc_mean), color = "Black") +
   labs(title = "Change in Ridership at 95th/Dan Ryan vs. System Wide",
        subtitle = "Difference in the average number of riders for the 12 month period before March 2017 and after January 2019",
        caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
@@ -1142,41 +1135,23 @@ It seems that over the same time period, the system also experienced a slight de
 in ridership of around -5%, while the 95th street terminal saw a drop in ridership of 
 nearly **17%** Let's compare the before and after ridership numbers in total terms.
 
-```{r DanRyan B&A Total rides, include=T}
+```{r DanRyan B&A Total rides}
 plot_7.1 <- ggplot() +
-<<<<<<< HEAD
   geom_line(data = DanRyan, aes(x = month, y = Dan_bef), 
             group = 1, color = "Red") +
   geom_point(data = DanRyan, aes(x = month, y = Dan_bef), 
             group = 1, color = "Red") +
   geom_hline() +
-=======
-  geom_hline(yintercept = mean(DanRyan$Dan_bef), color = "#e89bab") +
-  geom_hline(yintercept = mean(DanRyan$Dan_aft), color = "#c60c30") +
-  geom_line(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#e89bab")) +
-  geom_point(data = DanRyan, aes(x = month, y = Dan_bef, group = 1, color = "#e89bab")) +
->>>>>>> fe8236e56fe926173b596b7e1e1a2c70b0d55d33
   geom_line(data = DanRyan, aes(x = month, y = Dan_aft), 
-            group = 1, color = "#c60c30") +
-  geom_point(data = DanRyan, aes(x = month, y = Dan_aft, color = "#c60c30"), 
-            group = 1) + 
-  labs(title = "95th/Dan Ryan vs. System Wide",
-       subtitle = "Difference in the average number of riders for the 12 month period before March 2017 and after January 2019",
-       caption = "Source: Chicago Transit Authority Daily Ridership Dataset via Chicago Data Portal") +
-  xlab("Number of Months Before/After Project") + 
-  ylab("Mean # of Riders") +
-  scale_color_manual(name = "Time", 
-                    labels = c("After", "Before"), 
-                    values = c("#c60c30", "#e89bab")) +
-  red_line
-
-  
+            group = 1, color = "Black") +
+  geom_point(data = DanRyan, aes(x = month, y = Dan_aft), 
+            group = 1, color = "Black")
 
 plot_7.1
 ```
 Now let's do the same for the entire system... 
 
-```{r System B&A Total rides, include=T}
+```{r System B&A Total rides}
 plot_7.2 <- ggplot() +
   geom_line(data = System_DanRyan, aes(x = month, y = before_mean), 
             group = 1, color = "Red") +
@@ -1234,11 +1209,7 @@ plot_1 <- ggplot() +
             group = 1, color = "Black") +
   scale_y_continuous(limits = c(-20,15)) +
   geom_hline(yintercept = mean(Jarvis$perc_mean), color = "Red") +
-<<<<<<< HEAD
   geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black")
-=======
-  geom_hline(yintercept = mean(System_Jarvis$perc_mean), color = "Black") 
->>>>>>> fe8236e56fe926173b596b7e1e1a2c70b0d55d33
 
 
 
