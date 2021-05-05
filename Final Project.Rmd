@@ -7,7 +7,7 @@ urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F, message = F, warning = F, include = F)
+knitr::opts_chunk$set(echo = T, message = F, warning = F, include = T)
 ```
 
 # Motivation and Research Questions
